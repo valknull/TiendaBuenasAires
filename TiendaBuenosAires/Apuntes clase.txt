@@ -1,0 +1,5 @@
+- Mis compras(cliente)
+-Historial de ventas(Admin)
+-Mis solicitudes de servicio(Cliente)
+-Mis solicitudes de servicio(Tecnico)
+-Solicitudes de servicio de la empresa (Admin)
