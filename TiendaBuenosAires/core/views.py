@@ -1,6 +1,18 @@
 from django.shortcuts import render
 from .forms import EditProfile
+from django.db import connection
 # Create your views here.
+
+def listar_productos():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc("SP_OBTENER_STOCK_ACTUAL",[out_cur])
+    lista=[]
+    for i in out_cur:
+        lista.append(i)
+    return lista
+
 def home(request):
     return render(request,'home.html')
 def login(request):
@@ -29,6 +41,10 @@ def perfil(request):
         
     return render(request,'perfil.html', context)
 def facturas(request):
-    return render(request, 'facturas.html')
+    print(listar_productos())
+    context={
+        'productos': listar_productos()
+    }
+    return render(request, 'facturas.html', context)
 def sds(request):
     return render(request,'sds.html')

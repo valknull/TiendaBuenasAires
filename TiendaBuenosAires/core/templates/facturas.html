@@ -20,7 +20,9 @@
             <th scope="row">1</th>
             <td>John Doe</td>
             <td>21-05-2022</td>
-            <td>Aire Wifi 9000 blu</td>
+            {% for i in productos %}
+            <td>{{i.1}}</td>
+            {% endfor %}
             <td>25000</td>
             <td>11</td>
             <td>Entregado</td>
