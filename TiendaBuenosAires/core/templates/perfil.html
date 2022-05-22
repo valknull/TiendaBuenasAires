@@ -43,9 +43,10 @@
             </div>
             <div class="card-footer">
                 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>
+            </div>
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -55,16 +56,37 @@
           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <!--{{form.as_p}}-->
+                <label for="nombres" class="col-sm-2 col-form-label">{{form.nombres.label}}</label>
+                <input type="text" class="form-control" id="Nombre_change" value="{{usuario.nombre}}">
+                <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" value="{{usuario.apellido}}">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary" name="submit">Guardar cambios</button>
+            </div>
+        </form>
+        <!--<div class="modal-body">
+            <form action="POST">
+                {% csrf_token %}
+                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                <input type="text" class="form-control" id="Nombres" value="{{usuario.nombre}}">
+                <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" value="{{usuario.apellido}}">
+            </form>
+            --<label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
             <input type="text" class="form-control" id="Nombres" value="{{usuario.nombre}}">
             <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
-            <input type="text" class="form-control" id="apellidos" value="{{usuario.apellido}}">
+            <input type="text" class="form-control" id="apellidos" value="{{usuario.apellido}}">--
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary" name="submit">Guardar cambios</button>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
