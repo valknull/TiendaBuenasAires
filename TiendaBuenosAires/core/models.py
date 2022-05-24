@@ -57,7 +57,7 @@ class WebSolicitudServicio(models.Model):
         NuevaFechaPropuesta = 'NFP',"Nueva fecha propuesta"
         FechaVisitaAcordada = 'FVA',"Fecha de visita acordada"
         SERVICIOREALIZADO = 'SR',"Servicio Realizado"
-    id = models.AutoField("Nro solicitud de servicio",primary_key=True)
+    numeross = models.AutoField("Nro solicitud de servicio",primary_key=True)
     tipo_servicio=models.CharField(max_length=1, choices=TiposDeServicio.choices, default=TiposDeServicio.Reparacion)
     fecha_creacion_solicitud = models.DateField("Fecha creación de solicitud")
     fecha_hora_visita_solicitada = models.DateField("Fecha de visita solicitada")
