@@ -2,17 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.deletion import DO_NOTHING
 # Create your models here.
-class User(AbstractUser):
+class myUser(AbstractUser):
     is_customer = models.BooleanField(default=False)
     is_tecnico = models.BooleanField(default=False)
 
 class Cliente(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(myUser, on_delete=models.CASCADE,primary_key=True)
 
 class Tecnico (models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(myUser,on_delete=models.CASCADE,primary_key=True)
 
-class producto(models.Model):
+class Producto(models.Model):
     id= models.AutoField("id de producto", primary_key=True)
     nombre = models.CharField("Nombre del producto", max_length=50)
     precio = models.IntegerField("precio")
@@ -25,15 +25,13 @@ class producto(models.Model):
     def __str__(self):
         return self.nombre
 
-class WebFacturaVenta(models.Model):
+class WebFactura(models.Model):
     class TipoFactura(models.TextChoices):
         Boleta = 'B',"Boleta"
         Factura = 'F',"Factura"
     tipo_factura = models.CharField(max_length=1, choices=TipoFactura.choices,default=TipoFactura.Boleta)
-
-
-class WebDetalleFacturaVenta(models.Model):
-    factura = models.OneToOneField(WebFacturaVenta,on_delete=models.CASCADE)
+    producto = models.OneToOneField(Producto, on_delete=models.DO_NOTHING)
+    cliente = models.ForeignKey(Cliente,on_delete=models.DO_NOTHING)
 
 """#Fecha de visita aceptada
 FECHA_A = "FechaVisitaAceptada"
@@ -49,22 +47,25 @@ class WebSolicitudServicio(models.Model):
     class TiposDeServicio(models.TextChoices):
         Reparacion = 'R',"Reparacion"
         Mantencion = 'M',"Mantencion"
-    tipo_servicio=models.CharField(max_length=1, choices=TiposDeServicio.choices, default=TiposDeServicio.Reparacion)
-    fecha_creacion_solicitud = models.DateTimeField()
-    fecha_hora_visita_solicitada = models.DateTimeField()
-    descripcion_requerimiento = models.CharField(max_length=150)
-    acepta_fecha_hora_solicitada = models.DateTimeField()
-    fecha_hora_visita_tecnica = models.DateTimeField()
-
+    class AceptaSolicitud(models.TextChoices):
+        Aceptar = 'A',"Aceptar"
+        Rechazar = 'R',"Rechazar"
     class EstadoDeServicio(models.TextChoices):
         FechaVisitaAceptada = 'FA',"Fecha Visita Aceptada"
         NuevaFechaPropuesta = 'NFP',"Nueva fecha propuesta"
         FechaVisitaAcordada = 'FVA',"Fecha de visita acordada"
         SERVICIOREALIZADO = 'SR',"Servicio Realizado"
+    tipo_servicio=models.CharField(max_length=1, choices=TiposDeServicio.choices, default=TiposDeServicio.Reparacion)
+    fecha_creacion_solicitud = models.DateField("Fecha creación de solicitud")
+    fecha_hora_visita_solicitada = models.DateField("Fecha de visita solicitada")
+    hora_visita_solicitada = models.DateTimeField("Hora de visita solicitada")
+    descripcion_requerimiento = models.CharField("Descripción del servicio requerido",max_length=150)
+    acepta_fecha_hora_solicitada = models.CharField("Aceptar o rechazar fecha de solicitud", choices=AceptaSolicitud.choices, default=AceptaSolicitud.Aceptar, max_length=1)
+    fecha_visita_tecnica = models.DateField("Fecha de visita tecnica")
+    hora_visita_tecnica = models.DateTimeField("Hora de visita tecnica")
     estado_ss = models.CharField(max_length=3,choices=EstadoDeServicio.choices, default=EstadoDeServicio.FechaVisitaAceptada)
-
-    cliente = models.OneToOneField(Cliente,on_delete=models.DO_NOTHING)
-    tecnico = models.OneToOneField(Tecnico,on_delete=models.DO_NOTHING)
+    cliente = models.ForeignKey(Cliente,on_delete=models.DO_NOTHING)
+    tecnico = models.ForeignKey(Tecnico,on_delete=models.DO_NOTHING)
     
 
 class GuiasDespacho(models.Model):
@@ -72,4 +73,5 @@ class GuiasDespacho(models.Model):
         EnBodega = 'B',"En Bodega"
         Despachado = 'D', "Despachado"
         Entregado = 'E', "Entregado"
-    
+    numeroOD = models.AutoField("Numero orden de despacho",primary_key=True)
+    cliente = models.ForeignKey(Cliente,on_delete=DO_NOTHING)

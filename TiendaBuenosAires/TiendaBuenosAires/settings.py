@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/xe',
-        'USER': 'c##aires',
-        'PASSWORD': 'aires',
+        'USER': 'c##test',
+        'PASSWORD': 'ttest',
         'TEST': {
             'USER': 'default_test',
             'TBLSPACE': 'default_test_tbls',
@@ -135,7 +135,7 @@ MEDIA_ROOT = path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'core.myUser'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
