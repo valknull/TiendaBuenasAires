@@ -29,9 +29,11 @@ class WebFactura(models.Model):
     class TipoFactura(models.TextChoices):
         Boleta = 'B',"Boleta"
         Factura = 'F',"Factura"
+    id = models.AutoField("id de factura", primary_key=True)
     tipo_factura = models.CharField(max_length=1, choices=TipoFactura.choices,default=TipoFactura.Boleta)
     producto = models.OneToOneField(Producto, on_delete=models.DO_NOTHING)
     cliente = models.ForeignKey(Cliente,on_delete=models.DO_NOTHING)
+    fechafac = models.DateField("Fecha factura")
 
 """#Fecha de visita aceptada
 FECHA_A = "FechaVisitaAceptada"
@@ -55,6 +57,7 @@ class WebSolicitudServicio(models.Model):
         NuevaFechaPropuesta = 'NFP',"Nueva fecha propuesta"
         FechaVisitaAcordada = 'FVA',"Fecha de visita acordada"
         SERVICIOREALIZADO = 'SR',"Servicio Realizado"
+    id = models.AutoField("Nro solicitud de servicio",primary_key=True)
     tipo_servicio=models.CharField(max_length=1, choices=TiposDeServicio.choices, default=TiposDeServicio.Reparacion)
     fecha_creacion_solicitud = models.DateField("Fecha creación de solicitud")
     fecha_hora_visita_solicitada = models.DateField("Fecha de visita solicitada")
@@ -73,5 +76,6 @@ class GuiasDespacho(models.Model):
         EnBodega = 'B',"En Bodega"
         Despachado = 'D', "Despachado"
         Entregado = 'E', "Entregado"
-    numeroOD = models.AutoField("Numero orden de despacho",primary_key=True)
+    numeroOD = models.AutoField("Numero guia de despacho",primary_key=True)
     cliente = models.ForeignKey(Cliente,on_delete=DO_NOTHING)
+    estadogd = models.ForeignKey(max_length=1, choices=Estado.choices, default = Estado.EnBodega)
