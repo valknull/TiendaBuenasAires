@@ -7,5 +7,6 @@ urlpatterns = [
     path('itemP',itemP, name='item'),
     path('perfil',perfil, name='perfil'),
     path('sds',sds, name='sds'),
-    path('facturas',facturas, name='facturas')
+    path('facturas',facturas, name='facturas'),
+    path('solicitudes',solicitudesS, name = 'solicitudes')
 ]

@@ -9,3 +9,11 @@ from .models import *
 class EditProfile(forms.Form):
     nombres = forms.CharField(max_length=50)
     apellidos = forms.CharField(max_length=50)
+    
+    
+
+class UpdateSolicitudServicioT(forms.Form):
+    class Meta:
+        model = WebSolicitudServicio
+        fields = ['fecha_visita','hora_visita']
+        

@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from .forms import EditProfile
 from django.db import connection
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 # Create your views here.
+
+""" class ModelCreateView(CreateView):
+    model = Model
+    template_name = ".html" """
+
 
 def listar_productos():
     django_cursor = connection.cursor()
@@ -23,10 +29,10 @@ def itemP(request):
 
 def perfil(request):
     form = EditProfile()
-    usuario = {
+    """ usuario = {
         "nombre": "John",
         "apellido": "Doe"
-    }
+    } """
 
     context = {
         'form':form
@@ -48,3 +54,6 @@ def facturas(request):
     return render(request, 'facturas.html', context)
 def sds(request):
     return render(request,'sds.html')
+
+def solicitudesS(request):
+    return render(request, 'SolicitudesS.html')

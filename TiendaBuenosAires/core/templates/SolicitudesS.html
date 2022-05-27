@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Descripci&oacute;n</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Nro GD</th>
+        <th scope="col">Estado GD</th>
+        <th scope="col">Nro SS</th>
+        <th scope="col">Estado SS</th>
+        <th scope="col">Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>John Doe</td>
+        <td>21-05-2022</td>
+        <td>anwoooo</td>
+        <td>25000</td>
+        <td>11</td>
+        <td>Entregado</td>
+        <td>111</td>
+        <td>Cerrada</td>
+        <td><a href="#">Aceptar</a> <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Modificar</a> <a href="#">Cerrar</a></td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+    </tr>
+    </tbody>
+</table>
+<div class="text-center">
+    <a href="{% url 'sds' %}" type="button" class="btn btn-primary">
+        Ingresar nueva solicitud de servicio
+    </a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <!--{{form.as_p}}-->
+                    <label for="nombres" class="col-sm-2 col-form-label">h</label>
+                    <input type="text" class="form-control" id="Nombre_change" value="">
+                    <label for="apellidos" class="col-sm-2 col-form-label">j</label>
+                    <input type="text" class="form-control" id="apellidos" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="submit">Modificar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

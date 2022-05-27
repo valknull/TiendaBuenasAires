@@ -78,4 +78,4 @@ class GuiasDespacho(models.Model):
         Entregado = 'E', "Entregado"
     numeroOD = models.AutoField("Numero guia de despacho",primary_key=True)
     cliente = models.ForeignKey(Cliente,on_delete=DO_NOTHING)
-    estadogd = models.ForeignKey(max_length=1, choices=Estado.choices, default = Estado.EnBodega)
+    estadogd = models.CharField(max_length=1, choices=Estado.choices, default = Estado.EnBodega)
