@@ -4,9 +4,6 @@ from .models import *
 
 admin.site.register(Producto)
 admin.site.register(myUser)
-admin.site.register(Cliente)
-admin.site.register(Tecnico)
-
 admin.site.register(WebSolicitudServicio)
 admin.site.register(WebFactura)
 admin.site.register(GuiasDespacho)

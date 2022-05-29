@@ -1,23 +1,16 @@
 {%extends 'base.html'%}
+{% load static %}
+
 {% block body %}
 
 <div class="container">
     <p class="fs-1">Ingrese una solicitud de servicio</p>
 
 <div class="container">
-    <form>
-        <fieldset disabled>
-            <div class="mb-3">
-            <label for="disabledTextInput" class="form-label">Precio de la venta</label>
-            <input type="text" id="disabledTextInput" class="form-control" placeholder="$25.000">
-          </div>
-        </fieldset>
-          <label for="TextInput" class="form-label">Tipo de solicitud</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected>seleccionar...</option>
-            <option value="1">Mantencion</option>
-            <option value="2">Reparacion</option>
-          </select>
+    <form action="" method="POST">
+      {% csrf_token %}
+        {{form.as_p}}
+          <input class="btn btn-primary" type="submit" value="submit" name="submit">
     </form>
           
     
@@ -30,3 +23,22 @@
 
  
   {% endblock body %}
+{% comment %}   <fieldset disabled>
+    <div class="mb-3">
+    <label for="disabledTextInput" class="form-label">Precio de la visita</label>
+    <input type="text" id="disabledTextInput" class="form-control" placeholder="$25.000">
+  </div>
+</fieldset>
+  <label for="TextInput" class="form-label">{{form.tipo_servicio.label}}</label>
+  <select class="form-select" aria-label="Default select example" value ="">
+    {% for i in form.tipo_servicio  %}
+    {{i}}
+    {% endfor %}
+  </select>
+  {{form.rut_cli}}
+  {{form.descripcion_requerimiento.label}}
+  {{form.descripcion_requerimiento}}
+  {{form.fecha_hora_visita_solicitada.label}}
+  {{form.fecha_hora_visita_solicitada}}
+  {{form.hora_visita_solicitada.label}}
+  {{form.hora_visita_solicitada}} {% endcomment %}
