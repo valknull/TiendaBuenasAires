@@ -83,15 +83,9 @@ def sds(request):
 
 def solicitudesS(request):
     solicitudes = WebSolicitudServicio.objects.all().order_by('fecha_hora_visita_solicitada')
-    form = UpdateSolicitudServicioT()
     context = {
         'solicitudes':solicitudes,
-        'form': form
     }
-    if request.method == 'POST':
-        form = UpdateSolicitudServicioT(request.POST)
-        if form.is_valid():
-            form
     return render(request, 'SolicitudesS.html', context)
 """ def sds(request):
     solicitudservicio = WebSolicitudServicio

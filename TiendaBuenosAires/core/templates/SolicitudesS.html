@@ -21,7 +21,7 @@
     <tr>
         <th scope="row">1</th>
         {% for i in solicitudes %}
-            <td>{{i.rut_cli.nombre}}</td>
+            <td>{{i.rut_cli.first_name}}</td>
             {% if i.tipo_servicio == 'R' %}
             <td>Reparacion</td>
             {% else %}
@@ -29,7 +29,7 @@
             {% endif %}
             <td>{{i.fecha_hora_visita_solicitada}}</td>
             <td>{{i.hora_visita_solicitada}}</td>
-            <td>{{i.rut_tec}}</td>
+            <td>{{i.rut_tec.first_name}}</td>
             <td>{{i.descripcion_requerimiento}}</td>
             {% if i.estado_ss == 'FA' %}
             <td>Fecha Aceptada</td>
