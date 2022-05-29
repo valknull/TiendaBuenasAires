@@ -8,6 +8,7 @@ from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget,AdminS
 
 from .models import *
 
+import datetime
 
 class UpdateSolicitudServicioT(forms.ModelForm):
     class Meta:
@@ -23,6 +24,12 @@ class registroform(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = myUser
         fields = ['username', 'email', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs=dict(placeholder = 'nombre de usuario')),
+            'email': forms.EmailInput(attrs=dict(placeholder= 'Correo electronico')),
+            'password1': forms.PasswordInput(attrs=dict(placeholder='Contraseña')),
+            'password2': forms.PasswordInput(attrs=dict(placeholder = 'Repetir contraseña'))
+        }
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)
@@ -35,5 +42,15 @@ class SolicitudServicioForm(forms.ModelForm):
         model = WebSolicitudServicio
         fields = ['tipo_servicio','fecha_hora_visita_solicitada','hora_visita_solicitada','descripcion_requerimiento']
         excludes = ['rut_cli']
+        widgets = {
+            'fecha_hora_visita_solicitada': forms.DateInput(attrs=dict(type='date', value= datetime.date.today(), min = datetime.date.today)),
+            'hora_visita_solicitada': forms.TimeInput(attrs= dict(type = 'time'))
+        }
+        def clean_field(self):
+            date = self.cleaned_data["fecha_hora_visita_solicitada"]
+            if date < datetime.date.today():
+                raise forms.ValidationError("La fecha no puede estar en el pasado")
+            return date
+
 
         

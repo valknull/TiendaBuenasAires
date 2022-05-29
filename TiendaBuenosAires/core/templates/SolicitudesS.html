@@ -18,9 +18,10 @@
     </tr>
     </thead>
     <tbody>
+    {% for i in solicitudes %}
     <tr>
-        <th scope="row">1</th>
-        {% for i in solicitudes %}
+        <th scope="row">{{forloop.counter}}</th>
+        
             <td>{{i.rut_cli.first_name}}</td>
             {% if i.tipo_servicio == 'R' %}
             <td>Reparacion</td>
@@ -41,19 +42,9 @@
             <td>Servicio realizado</td>
             {% endif %}
             <td><a href="#">Aceptar</a> <button class="btn btn-primary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button> <a href="#">Cerrar</a></td>
-        {% endfor %}
+        
     </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
 <div class="text-center">

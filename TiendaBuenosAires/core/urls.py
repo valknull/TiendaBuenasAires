@@ -3,7 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('home',home,name='home'),
-    path('',login, name='login'),
+    path('',registerpage, name='login'),
     path('itemP',itemP, name='item'),
     path('perfil',perfil, name='perfil'),
     path('sds',sds, name='sds'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('solicitudes',solicitudesS, name = 'solicitudes'),
     #path('sds',CrearSolicitudServicio.as_view(), name='sds'),
     path('facturas',facturas, name='facturas'),
-    path('updateS/<id>', updatess, name='UpdateSolicitud')
+    path('updateS/<id>', updatess, name='UpdateSolicitud'),
+    path('logout/',logout_view, name='logout')
 ]
