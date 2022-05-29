@@ -7,6 +7,7 @@ class myUser(AbstractUser):
     is_customer = models.BooleanField(default=False)
     is_tecnico = models.BooleanField(default=False)
     is_bodeguero = models.BooleanField(default=False)
+    is_vendedor = models.BooleanField(default=False)
     rut = models.IntegerField("Rut", null=True)
     dirusu = models.CharField("Direccion",max_length=300)
 
@@ -73,13 +74,13 @@ class WebSolicitudServicio(models.Model):
     numeross = models.AutoField("Nro solicitud de servicio",primary_key=True)
     tipo_servicio=models.CharField(max_length=1, choices=TiposDeServicio.choices, default=TiposDeServicio.Reparacion)
     fecha_creacion_solicitud = models.DateField("Fecha creación de solicitud", auto_now_add=True, blank=True)
-    fecha_hora_visita_solicitada = models.DateField("Fecha de visita solicitada")
+    fecha_visita_solicitada = models.DateField("Fecha de visita solicitada")
     hora_visita_solicitada = models.TimeField("Hora de visita solicitada")
     descripcion_requerimiento = models.CharField("Descripción del servicio requerido",max_length=150)
     acepta_fecha_hora_solicitada = models.CharField("Aceptar o rechazar fecha de solicitud", choices=AceptaSolicitud.choices, default=AceptaSolicitud.Aceptar, max_length=1,blank=True,null=True)
     estado_ss = models.CharField(max_length=3,choices=EstadoDeServicio.choices, default=EstadoDeServicio.FechaVisitaAceptada, null=True,blank=True)
-    rut_cli = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_cliente', db_column='rutcli')
-    rut_tec = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_tecnico', db_column='ruttec', null=True, blank=True)
+    id_cli = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_cliente', db_column='idcli')
+    id_tec = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_tecnico', db_column='idtec', null=True, blank=True)
     
     def __str__(self):
         return str(self.numeross)

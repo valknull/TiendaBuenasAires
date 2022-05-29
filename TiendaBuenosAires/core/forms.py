@@ -13,7 +13,7 @@ import datetime
 class UpdateSolicitudServicioT(forms.ModelForm):
     class Meta:
         model = WebSolicitudServicio
-        fields = ['fecha_hora_visita_solicitada','hora_visita_solicitada']
+        fields = ['fecha_visita_solicitada','hora_visita_solicitada']
         
 class EditProfile(forms.ModelForm):
     class Meta:
@@ -40,7 +40,7 @@ class registroform(UserCreationForm):
 class SolicitudServicioForm(forms.ModelForm):
     class Meta:
         model = WebSolicitudServicio
-        fields = ['tipo_servicio','fecha_hora_visita_solicitada','hora_visita_solicitada','descripcion_requerimiento']
+        fields = ['tipo_servicio','fecha_visita_solicitada','hora_visita_solicitada','descripcion_requerimiento']
         excludes = ['rut_cli']
         widgets = {
             'fecha_hora_visita_solicitada': forms.DateInput(attrs=dict(type='date', value= datetime.date.today(), min = datetime.date.today)),

@@ -110,7 +110,7 @@ def sds(request):
     return render(request,'sds.html', context)
 
 def solicitudesS(request):
-    solicitudes = WebSolicitudServicio.objects.all().order_by('fecha_hora_visita_solicitada')
+    solicitudes = WebSolicitudServicio.objects.all().order_by('fecha_visita_solicitada')
     context = {
         'solicitudes':solicitudes,
     }
