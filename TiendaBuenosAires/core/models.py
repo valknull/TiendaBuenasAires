@@ -10,6 +10,12 @@ class myUser(AbstractUser):
     is_vendedor = models.BooleanField(default=False)
     rut = models.IntegerField("Rut", null=True)
     dirusu = models.CharField("Direccion",max_length=300)
+    def get_full_name(self):
+        """
+        Return the first_name plus the last_name, with a space in between.
+        """
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
 
 """ 
 class Cliente(models.Model):
