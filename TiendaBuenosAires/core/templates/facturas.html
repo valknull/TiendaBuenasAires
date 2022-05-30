@@ -11,24 +11,20 @@
             <th scope="col">Monto</th>
             <th scope="col">Nro GD</th>
             <th scope="col">Estado GD</th>
-            <th scope="col">Nro SS</th>
-            <th scope="col">Estado SS</th>
         </tr>
         </thead>
         <tbody>
+        {% for i in list %}
         <tr>
-            <th scope="row">1</th>
-            <td>John Doe</td>
-            <td>21-05-2022</td>
-            {% for i in productos %}
-            <td>{{i.1}}</td>
-            {% endfor %}
-            <td>25000</td>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{i.rut_cli.get_full_name}}</td>
+            <td>{{i.fechafac}}</td>
+            <td>{{i.descripcion}}</td>
+            <td>{{i.monto}}</td>
             <td>11</td>
             <td>Entregado</td>
-            <td>111</td>
-            <td>Cerrada</td>
         </tr>
+        {% endfor %}
         <tr>
             <th scope="row">2</th>
             <td>Jacob</td>

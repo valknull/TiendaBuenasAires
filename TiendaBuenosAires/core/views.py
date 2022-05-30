@@ -68,7 +68,7 @@ def registerpage(request):
         'form': form
     }
     return render(request, 'login.html', context)
-    
+
 def itemP(request,id):
     producto = Producto.objects.get(id = id)
     context = {
@@ -96,9 +96,10 @@ def perfil(request):
         
     return render(request,'perfil.html', context)
 def facturas(request):
-    print(listar_productos())
+    user = myUser.objects.get(rut = request.user.rut)
+    compras = WebFactura.objects.get(rut_cliente = user)
     context={
-        'productos': listar_productos()
+        'list': compras
     }
     return render(request, 'facturas.html', context)
 def sds(request):
