@@ -4,6 +4,19 @@
 <div class="container">
     <h1>Aires Acondicionados</h1>
     <div class="row">
+      {% for i in productos %}
+      <div class="col-md-4">
+        <a class="text-decoration-none text-muted" href="{% url 'itemP' i.id %}">
+        <div class ="card-mb-4 card-border shadow-sm text-center">
+            <img class="card-img-top" src="{{i.imagen_producto.url}}" alt="Card image cap" style="max-width: 500px; max-height: 175px;">
+            <div class="card-body">
+                <h5 class="card-title">{{i.nombre}}</h5>
+                <p class="card-text">{{i.descripcion}}</p>
+            </div>
+        </div>
+        </a>
+    </div>
+      {% endfor %}
       <div class="col">
         Split Mural Samsung Inverter Frío-Calor 12.000 BTU 
         <div class="card" style="width: 18rem;">
@@ -11,19 +24,6 @@
             <div class="card-body">
               <h5 class="card-title">Producto Disponible</h5>
               <p class="card-text">$649.990
-                  <br>
-                  Descripcion.
-                  <br>
-                  -Ancho: 29.9 cm.
-                  -Profundidad: 21.5 cm.
-                  <br>
-                  -Cobertura: Hasta 15 m2.
-                  <br>
-                  -Potencia: Frío: 1060W / Calor: 940W.
-                  <br>
-                  -Eficiencia Energética: A.
-                  <br>
-                  <br>
               <a href="{% url 'item' %}" class="btn btn-primary">Go somewhere</a> 
             </div>
         </div>

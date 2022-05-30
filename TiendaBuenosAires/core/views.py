@@ -37,7 +37,11 @@ class CrearSolicitudServicio(CreateView):
     success_url = reverse_lazy('home')
 
 def home(request):
-    return render(request,'home.html')
+    productos = Producto.objects.all().order_by('nombre')
+    context = {
+        'item':productos
+    }
+    return render(request,'home.html', context)
 def registerpage(request):
     form = registroform()
     if request.user.is_authenticated:
@@ -64,9 +68,13 @@ def registerpage(request):
         'form': form
     }
     return render(request, 'login.html', context)
-
-def itemP(request):
-    return render(request, 'item.html')
+    
+def itemP(request,id):
+    producto = Producto.objects.get(id = id)
+    context = {
+        'producto':producto
+    }
+    return render(request, 'item.html', context)
 
 def perfil(request):
     form = EditProfile()
