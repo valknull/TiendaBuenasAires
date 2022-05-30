@@ -15,27 +15,24 @@
         </thead>
         <tbody>
         {% for i in list %}
+            
         <tr>
             <th scope="row">{{forloop.counter}}</th>
             <td>{{i.rut_cli.get_full_name}}</td>
             <td>{{i.fechafac}}</td>
             <td>{{i.descripcion}}</td>
             <td>{{i.monto}}</td>
-            <td>11</td>
+            
+            <td>{{i.guiasdespacho_set.all.0.numeroGD}}</td>
+            {% if i.guiasdespacho_set.all.0.estadogd == 'B' %}
+            <td>En Bodega</td>
+            {% elif i.guiasdespacho_set.all.0.estadogd == 'D' %}
+            <td>Despachado</td>
+            {% elif i.guiasdespacho_set.all.0.estadogd == 'E' %}
             <td>Entregado</td>
+            {% endif %}
         </tr>
         {% endfor %}
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-        </tr>
         </tbody>
     </table>
 

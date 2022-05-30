@@ -43,19 +43,21 @@
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Inicio</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'sds' %}" class="nav-link px-2 text-white">Hola</a></li>
+            <li><a href="{% url 'sds' %}" class="nav-link px-2 text-white">crear solicitud</a></li>
             {% if request.user.is_staff %}
             <li><a href="{% url 'admin:index' %}" class="nav-link px-2 text-white">Admin</a></li>
             {% endif %}
             <li><a href="{% url 'solicitudes' %}" class="nav-link px-2 text-white">Solicitudes</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             {% endif %}
           </ul>
-
+          {% if user.is_authenticated %}
+          
+          {% else %}
           <div class="text-end">
             <a type="button" class="btn btn-primary" href="{% url 'login' %}">Iniciar sesi&oacute;n</a>
             <a type="button" class="btn btn-warning" href="{% url 'login' %}">Registrarse</a>
           </div>
+          {% endif %}
         </div>
       </div>
     </header>

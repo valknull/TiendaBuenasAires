@@ -4,9 +4,9 @@
 <div class="container">
     <h1>Aires Acondicionados</h1>
     <div class="row">
-      {% for i in productos %}
+      {% for i in item %}
       <div class="col-md-4">
-        <a class="text-decoration-none text-muted" href="{% url 'itemP' i.id %}">
+        <a class="text-decoration-none text-muted" href="{% url 'item' i.id %}">
         <div class ="card-mb-4 card-border shadow-sm text-center">
             <img class="card-img-top" src="{{i.imagen_producto.url}}" alt="Card image cap" style="max-width: 500px; max-height: 175px;">
             <div class="card-body">
@@ -17,7 +17,7 @@
         </a>
     </div>
       {% endfor %}
-      <div class="col">
+{% comment %}       <div class="col">
         Split Mural Samsung Inverter Frío-Calor 12.000 BTU 
         <div class="card" style="width: 18rem;">
             <img src="https://http2.mlstatic.com/D_NQ_NP_852794-MLA48996157068_022022-O.jpg" class="card-img-top" alt="..." height="220">
@@ -27,7 +27,7 @@
               <a href="{% url 'item' %}" class="btn btn-primary">Go somewhere</a> 
             </div>
         </div>
-      </div>
+      </div> {% endcomment %}
       <div class="col">
         Clark INVERTER Ecológico 9000 BTU
         <div class="card" style="width: 18rem;">

@@ -14,6 +14,15 @@ class UpdateSolicitudServicioT(forms.ModelForm):
     class Meta:
         model = WebSolicitudServicio
         fields = ['fecha_visita_solicitada','hora_visita_solicitada']
+        widgets = {
+            
+            'hora_visita_solicitada': forms.TimeInput(attrs= dict(type = 'time'))
+        }
+        def clean_field(self):
+            date = self.cleaned_data["fecha_hora_visita_solicitada"]
+            if date < datetime.date.today():
+                raise forms.ValidationError("La fecha no puede estar en el pasado")
+            return date
         
 class EditProfile(forms.ModelForm):
     class Meta:
@@ -23,10 +32,12 @@ class EditProfile(forms.ModelForm):
 class registroform(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = myUser
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2','dirusu']
         widgets = {
             'username': forms.TextInput(attrs=dict(placeholder = 'nombre de usuario')),
             'email': forms.EmailInput(attrs=dict(placeholder= 'Correo electronico')),
+            'dirusu': forms.TextInput(attrs= dict(placeholder = 'Dirección')),
+            
             'password1': forms.PasswordInput(attrs=dict(placeholder='Contraseña')),
             'password2': forms.PasswordInput(attrs=dict(placeholder = 'Repetir contraseña'))
         }
@@ -43,7 +54,7 @@ class SolicitudServicioForm(forms.ModelForm):
         fields = ['tipo_servicio','fecha_visita_solicitada','hora_visita_solicitada','descripcion_requerimiento']
         excludes = ['rut_cli']
         widgets = {
-            'fecha_hora_visita_solicitada': forms.DateInput(attrs=dict(type='date', value= datetime.date.today(), min = datetime.date.today)),
+            'fecha_visita_solicitada': forms.DateInput(attrs=dict(type='date', value= datetime.date.today(), min = datetime.date.today)),
             'hora_visita_solicitada': forms.TimeInput(attrs= dict(type = 'time'))
         }
         def clean_field(self):

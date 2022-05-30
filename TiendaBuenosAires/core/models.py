@@ -8,7 +8,7 @@ class myUser(AbstractUser):
     is_tecnico = models.BooleanField(default=False)
     is_bodeguero = models.BooleanField(default=False)
     is_vendedor = models.BooleanField(default=False)
-    rut = models.IntegerField("Rut", null=True)
+    rut = models.IntegerField("Rut", null=True,blank=True)
     dirusu = models.CharField("Direccion",max_length=300)
     def get_full_name(self):
         """
@@ -46,14 +46,14 @@ class WebFactura(models.Model):
     """
     nrofac = models.AutoField("Nro factura", primary_key=True)
     #tipo_factura = models.CharField("Boleta o factura",max_length=1, choices=TipoFactura.choices,default=TipoFactura.Boleta)
-    idp = models.OneToOneField(Producto, on_delete=models.DO_NOTHING,db_column='idp')
+    id_producto = models.OneToOneField(Producto, on_delete=models.DO_NOTHING,db_column='id_producto')
     rut_cliente = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,db_column='rutcli')
-    fechafac = models.DateField("Fecha factura")
+    fechafac = models.DateField("Fecha factura",auto_now_add=True, blank=True)
     monto = models.IntegerField("Monto")
     descripcion = models.CharField("Descripcion factura", max_length=200, null=True)
     
     def __str__(self) -> str:
-        return self.nrofac
+        return str(self.nrofac)
 
 """#Fecha de visita aceptada
 FECHA_A = "FechaVisitaAceptada"
@@ -88,7 +88,7 @@ class WebSolicitudServicio(models.Model):
     id_cli = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_cliente', db_column='idcli')
     id_tec = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_tecnico', db_column='idtec', null=True, blank=True)
     
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.numeross)
 
 class GuiasDespacho(models.Model):
@@ -97,14 +97,14 @@ class GuiasDespacho(models.Model):
         Despachado = 'D', "Despachado"
         Entregado = 'E', "Entregado"
     nrofac = models.ForeignKey(WebFactura, models.DO_NOTHING, db_column='nrofac')
-    numeroOD = models.AutoField("Numero guia de despacho",primary_key=True)
-    idp = models.ForeignKey(Producto,on_delete=DO_NOTHING, db_column='idp')
+    numeroGD = models.AutoField("Numero guia de despacho",primary_key=True)
+    id_producto = models.ForeignKey(Producto,on_delete=DO_NOTHING, db_column='id_producto')
     estadogd = models.CharField(max_length=1, choices=Estado.choices, default = Estado.EnBodega)
 
 class BodegaStockProducto(models.Model):
     idb = models.IntegerField(primary_key=True)
-    idp = models.ForeignKey(Producto, models.DO_NOTHING, db_column='idp')
+    id_producto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='id_producto')
     nrofac = models.ForeignKey(WebFactura, models.DO_NOTHING, db_column='nrofac', blank=True, null=True)
     
-    def __str__(self):
-        return self.idb
+    def __str__(self) -> str:
+        return str(self.idb)

@@ -8,9 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .models import *
 from .forms import EditProfile, SolicitudServicioForm, UpdateSolicitudServicioT, registroform
-""" from transbank.error.transbank_error import TransbankError
-from transbank.webpay.webpay_plus.transaction import Transaction """
-"""import random"""
+
 # Create your views here.
 def logout_view(request):
     logout(request)
@@ -77,27 +75,19 @@ def itemP(request,id):
     return render(request, 'item.html', context)
 
 def perfil(request):
-    form = EditProfile()
-    """ usuario = {
-        "nombre": "John",
-        "apellido": "Doe"
-    } """
-
+    usuario = request.user
+    form = EditProfile(instance=usuario)
     context = {
         'form':form
     }
     if request.method == 'POST':
-        form = EditProfile(request.POST)
+        form = EditProfile(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-        """nombre_cambio = request.body.get('Nombre_change')
-        nombre_cambio = hola
-        usuario.update({'nombre': nombre_cambio})"""
-        
     return render(request,'perfil.html', context)
 def facturas(request):
     user = myUser.objects.get(rut = request.user.rut)
-    compras = WebFactura.objects.get(rut_cliente = user)
+    compras = WebFactura.objects.filter(rut_cliente = user)
     context={
         'list': compras
     }
@@ -112,7 +102,7 @@ def sds(request):
         form = SolicitudServicioForm(request.POST)
         if form.is_valid():
             solicituds = form.save(commit=False)
-            solicituds.rut_cli = myUser.objects.get(rut= usuario.rut)
+            solicituds.id_cli = myUser.objects.get(id= usuario.id)
             solicituds.save() 
             #form.save()
             return redirect('home')
@@ -143,3 +133,5 @@ def updatess(request,id):
         'solicitud':solicitud
     }
     return render(request, 'updateSolicitud.html', context)
+
+    
