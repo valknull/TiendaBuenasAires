@@ -11,33 +11,28 @@
             <th scope="col">Monto</th>
             <th scope="col">Nro GD</th>
             <th scope="col">Estado GD</th>
-            <th scope="col">Nro SS</th>
-            <th scope="col">Estado SS</th>
         </tr>
         </thead>
         <tbody>
+        {% for i in list %}
+            
         <tr>
-            <th scope="row">1</th>
-            <td>John Doe</td>
-            <td>21-05-2022</td>
-            <td>Aire Wifi 9000 blu</td>
-            <td>25000</td>
-            <td>11</td>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{i.rut_cliente.get_full_name}}</td>
+            <td>{{i.fechafac}}</td>
+            <td>{{i.descripcion}}</td>
+            <td>{{i.monto}}</td>
+            
+            <td>{{i.guiasdespacho_set.all.0.numeroGD}}</td>
+            {% if i.guiasdespacho_set.all.0.estadogd == 'B' %}
+            <td>En Bodega</td>
+            {% elif i.guiasdespacho_set.all.0.estadogd == 'D' %}
+            <td>Despachado</td>
+            {% elif i.guiasdespacho_set.all.0.estadogd == 'E' %}
             <td>Entregado</td>
-            <td>111</td>
-            <td>Cerrada</td>
+            {% endif %}
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        {% endfor %}
         </tbody>
     </table>
 

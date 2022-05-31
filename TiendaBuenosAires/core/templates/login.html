@@ -15,47 +15,43 @@
       <div class="container" id="fondo">
         <div class="forms-container">
           <div class="signin-signup">
-            <form action="" class="sign-in-form">
-              <a href="main.html" id="volver-main">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff"
-                  class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                  <path
-                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-                </svg>
-              </a>
+            <form method="POST" class="sign-in-form" name="sign-in-f" value="signinf">
+              {% csrf_token %}
               <h2 class="title">Inicio sesi&oacute;n</h2>
               <div class="input-field">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Nombre de usuario" required />
+                <input type="text" placeholder="Nombre de usuario" name="username" required />
               </div>
               <div class="input-field">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Contraseña" required />
+                <input type="password" placeholder="Contraseña" name="password" required />
               </div>
-              <button name="loginBtn" type="submit" id="Btnlogin" class="btn text-login">Iniciar sesi&oacute;n</button>
+              <button name="submit" type="submit" id="Btnlogin" class="btn" value="sign_in">Iniciar sesi&oacute;n</button>
             </form>
-            <form class="sign-up-form">
-              <a href="main.html" id="volver-main">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff"
-                  class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                  <path
-                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-                </svg>
-              </a>
+            <form method="POST" class="sign-up-form" name="sign-up-f">
+              {% csrf_token %}
               <h2 class="title">Registro</h2>
               <div class="input-field">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Nombre de usuario" required />
+                {{form.username}}
               </div>
               <div class="input-field">
                 <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="Email" required />
+                {{form.email}}
+              </div>
+              <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                {{form.dirusu}}
               </div>
               <div class="input-field">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Contraseña" required />
+                {{form.password1}}
               </div>
-              <input type="submit" class="btn" value="Registrarse" />
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                {{form.password2}}
+              </div>
+              <button name="submit" type="submit" class="btn" value="sign_up">Registrarse</button>
             </form>
           </div>
         </div>

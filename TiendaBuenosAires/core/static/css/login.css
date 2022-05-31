@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 #fondo {
-    background-image: url(../images/abuelos.jpg) ;
+    /* background-image: url(../images/abuelos.jpg) ; */
 }
 body,
 input {

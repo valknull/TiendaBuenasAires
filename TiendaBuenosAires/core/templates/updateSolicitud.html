@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<!-- Modal -->
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">actualizar solicitud</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'UpdateSolicitud' solicitud.numeross %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{form.as_p}}
+{% comment %}                     <label for="nombres" class="col-sm-2 col-form-label"></label>
+                    <input type="text" class="form-control" id="Nombre_change" value="">
+                    <label for="apellidos" class="col-sm-2 col-form-label">j</label>
+                    <input type="text" class="form-control" id="apellidos" value=""> {% endcomment %}
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-primary" type="submit" value="Modificar" name="submit">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock body %}

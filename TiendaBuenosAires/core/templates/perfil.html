@@ -14,7 +14,7 @@
             <!--<form action="" method="POST">
 
             </form>-->
-            <div class="mb-3 row">
+            {% comment %} <div class="mb-3 row">
                 <div class="col-sm-10">
                     <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                     <input type="text" class="form-control" value="{{usuario.nombre}}" disabled readonly>
@@ -46,8 +46,14 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Launch demo modal
                 </button>
-            </div>
-  
+            </div> {% endcomment %}
+            <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary" name="submit">Guardar cambios</button>
+            </form>
+            
+        </div>
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
