@@ -30,7 +30,7 @@
             </form>
             <form method="POST" class="sign-up-form" name="sign-up-f">
               {% csrf_token %}
-              <h2 class="title">Registro</h2>
+{% comment %}               <h2 class="title">Registro</h2>
               <div class="input-field">
                 <i class="fas fa-user"></i>
                 {{form.username}}
@@ -50,7 +50,8 @@
               <div class="input-field">
                 <i class="fas fa-lock"></i>
                 {{form.password2}}
-              </div>
+              </div> {% endcomment %}
+              {{form.as_p}}
               <button name="submit" type="submit" class="btn" value="sign_up">Registrarse</button>
             </form>
           </div>

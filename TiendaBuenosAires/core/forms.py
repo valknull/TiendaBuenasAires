@@ -41,7 +41,7 @@ class registroform(UserCreationForm):
             'password1': forms.PasswordInput(attrs=dict(placeholder='Contraseña')),
             'password2': forms.PasswordInput(attrs=dict(placeholder = 'Repetir contraseña'))
         }
-    @transaction.atomic
+    @transaction.atomic()
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True
