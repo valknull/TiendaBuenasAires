@@ -8,7 +8,7 @@ class myUser(AbstractUser):
     is_tecnico = models.BooleanField(default=False)
     is_bodeguero = models.BooleanField(default=False)
     is_vendedor = models.BooleanField(default=False)
-    rut = models.IntegerField("Rut", null=True,blank=True)
+    rut = models.CharField("Rut",max_length=10)
     dirusu = models.CharField("Direccion",max_length=300)
     def get_full_name(self):
         """
@@ -30,10 +30,10 @@ class Tecnico (models.Model):
 
 class Producto(models.Model):
     id= models.AutoField("id de producto", primary_key=True)
-    nombre = models.CharField("Nombre del producto", max_length=50)
+    nombre = models.CharField("Nombre del producto", max_length=150)
     precio = models.IntegerField("precio")
     imagen_producto = models.ImageField("imagen del producto", upload_to="images/productos", default="")
-    descripcion = models.CharField("Descripción", max_length=50)
+    descripcion = models.CharField("Descripción", max_length=300)
 
     def __str__(self):
         return self.nombre
@@ -50,7 +50,7 @@ class WebFactura(models.Model):
     rut_cliente = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,db_column='rutcli')
     fechafac = models.DateField("Fecha factura",auto_now_add=True, blank=True)
     monto = models.IntegerField("Monto")
-    descripcion = models.CharField("Descripcion factura", max_length=200, null=True)
+    descripcion = models.CharField("Descripcion factura", max_length=300, null=True)
     
     def __str__(self) -> str:
         return str(self.nrofac)
@@ -82,7 +82,7 @@ class WebSolicitudServicio(models.Model):
     fecha_creacion_solicitud = models.DateField("Fecha creación de solicitud", auto_now_add=True, blank=True)
     fecha_visita_solicitada = models.DateField("Fecha de visita solicitada")
     hora_visita_solicitada = models.TimeField("Hora de visita solicitada")
-    descripcion_requerimiento = models.CharField("Descripción del servicio requerido",max_length=150)
+    descripcion_requerimiento = models.CharField("Descripción del servicio requerido",max_length=300)
     acepta_fecha_hora_solicitada = models.CharField("Aceptar o rechazar fecha de solicitud", choices=AceptaSolicitud.choices, default=AceptaSolicitud.Aceptar, max_length=1,blank=True,null=True)
     estado_ss = models.CharField(max_length=3,choices=EstadoDeServicio.choices, default=EstadoDeServicio.FechaVisitaAceptada, null=True,blank=True)
     id_cli = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,related_name='rut_cliente', db_column='idcli')

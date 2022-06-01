@@ -55,13 +55,18 @@ def registerpage(request):
                     user = authenticate(username = user.username, password = raw_password)
                     login(request, user)
                     return redirect('home')
+                else:
+                    print(form.errors)
             if request.POST.get('submit') == 'sign_in':
                 username = request.POST.get('username')
                 password = request.POST.get('password')
-                user = authenticate(request, username= username, password = password)
+                print(username, password)
+                user = authenticate(request,username=username,password=password)
                 if user is not None:
                     login(request,user)
                     return redirect('home')
+                else :
+                    print(user)
     context = {
         'form': form
     }
@@ -109,9 +114,12 @@ def sds(request):
     return render(request,'sds.html', context)
 
 def solicitudesS(request):
+    user = myUser.objects.get(id = request.user.id)
     solicitudes = WebSolicitudServicio.objects.all().order_by('fecha_visita_solicitada')
+    solicitudescli = WebSolicitudServicio.objects.filter(id_cli = user)
     context = {
         'solicitudes':solicitudes,
+        'solicitudescli': solicitudescli
     }
     return render(request, 'SolicitudesS.html', context)
 """ def sds(request):
