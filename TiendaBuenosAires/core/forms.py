@@ -27,21 +27,19 @@ class UpdateSolicitudServicioT(forms.ModelForm):
 class EditProfile(forms.ModelForm):
     class Meta:
         model = myUser
-        fields = ['first_name', 'last_name', 'email', 'password', 'username', 'rut', 'dirusu']
+        fields = ['first_name', 'last_name', 'email','username','dirusu']
 
 class registroform(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = myUser
-        fields = ['username', 'email', 'password1', 'password2','dirusu']
+        fields = ['username', 'email', 'password1', 'password2','dirusu','rut']
         widgets = {
-            'username': forms.TextInput(attrs=dict(placeholder = 'nombre de usuario')),
+            'username': forms.TextInput(attrs=dict(placeholder = 'Nombre de usuario')),
             'email': forms.EmailInput(attrs=dict(placeholder= 'Correo electronico')),
             'dirusu': forms.TextInput(attrs= dict(placeholder = 'Dirección')),
-            
-            'password1': forms.PasswordInput(attrs=dict(placeholder='Contraseña')),
-            'password2': forms.PasswordInput(attrs=dict(placeholder = 'Repetir contraseña'))
+            'rut': forms.TextInput(attrs=dict(oninput="comprobarRut(this)", placeholder = 'RUT')),
         }
-    @transaction.atomic
+    @transaction.atomic()
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True

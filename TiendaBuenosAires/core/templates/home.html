@@ -1,4 +1,22 @@
 {% extends 'base.html' %} {% load static %} {% block title %} inicio {% endblock title %}    
+{% block css %}
+
+<style>
+
+  .card-border{
+    transition:  all ease-out .2s;
+    overflow: hidden;
+    border: 1px solid rgb(148, 143, 143);
+    border-radius: 30px;
+  
+  }
+  .card-border:hover{
+  
+    transform: scale(1.05)
+  
+  }
+</style>
+{% endblock css %}
 {% block body %}
 
 <div class="container">
@@ -15,6 +33,7 @@
             </div>
         </div>
         </a>
+      </div>
     </div>
       {% endfor %}
 {% comment %}       <div class="col">
@@ -28,7 +47,7 @@
             </div>
         </div>
       </div> {% endcomment %}
-      <div class="col">
+{% comment %}       <div class="col">
         Clark INVERTER Ecológico 9000 BTU
         <div class="card" style="width: 18rem;">
             <img src="https://nuestroclima.cl/wp-content/uploads/2019/06/INVERTER-9000-BTU-CLARK.jpg" class="card-img-top" alt="..." height="220">
@@ -52,117 +71,6 @@
               <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
-      </div>
-      <div class="col">
-        AIROLITE Split Inverter 12000 BTU + WIFI INC
-        <div class="card" style="width: 18rem;">
-            <img src="https://home.ripley.cl/store/Attachment/WOP/D136/2000379844890/2000379844890-2.jpg" class="card-img-top" alt="..." height="220">
-            <div class="card-body">
-              <h5 class="card-title">Producto Disponible</h5>
-              <p class="card-text">$362.550
-                  <br>
-                  Descripcion.
-                  <br>
-                  -Refrigerante Ecológico R410A.
-                  <br>
-                  -Control Remoto Inalámbrico.
-                  <br>
-                  -Función Turbo para Enfriamiento más Rápido.
-                  <br>
-                  -Temporizador de hasta 24 hrs para programar encendido o apagado.                  
-                  <br>
-                  <br>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-      </div>
-</div>
-<div class="container">
-    <div class="row">
-      <div class="col">
-        Split Frio-Calor 12.000 BTU + WIFI INC
-        <div class="card" style="width: 18rem;">
-            <img src="https://www.airolite.cl/wp-content/uploads/2020/11/AASM-09-AIR-ECO-WIFI_7-600x600.jpg" class="card-img-top" alt="..."  height="220">
-            <div class="card-body">
-              <h5 class="card-title">Producto Disponible</h5>
-              <p class="card-text">$369.990
-                <br>
-                Descripcion.
-                <br>
-                -Refrigerante Ecológico R410A.
-                <br>
-                -Se puede controlar mediante aplicación Wifi. TUYA APP.
-                <br>
-                -Control Remoto Inalámbrico
-                <br>
-                -UE con protección para conexiones eléctrica y válvulas de servicio.
-                <br>
-                <br>
-                
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-      </div>
-      <div class="col">
-        Split Muro AKL Inverter 12.000 BTU + WIFI INC
-        <br>
-        <div class="card" style="width: 18rem;">
-            <img src="data:image/jpeg;base64,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" class="card-img-top" alt="..." height="220">
-            <div class="card-body">
-              <h5 class="card-title">Prodructo Agotado</h5>
-              <p class="card-text">$483.378
-                <br>
-                Descripcion.
-                <br>
-                -Modo: Frío-Calor.
-                <br>
-                -Pantalla digital.
-                <br>
-                -Wifi integrado.
-                <br>
-                -Selector de velocidades, baja, media, alta, turbo.
-                <br>
-                <br>
-                <br>
-                <br>      
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-      </div>
-      <div class="col">
-        Samsung INVERTER Energy Saving 9.000 BTU
-        <div class="card" style="width: 18rem;">
-            <img src="https://www.enelxstore.com/content/dam/enel-x-store-cl/aire-acondicionado/split-muro/samsung/-anado-samsung-inverter-energy-saving-9000-btu/Novo%20Projeto%20(1).jpg.resize.612.380.center.center.jpeg" class="card-img-top" alt="..." height="220">
-            <div class="card-body">
-              <h5 class="card-title">Producto Disponible</h5>
-              <p class="card-text">$ 394.990
-                <br>
-                Descripcion.
-                <br>
-                -Reduce los costos de energía.
-                <br>
-                -Enfría rápido.
-                <br>
-                -Refresca de esquina a esquina.
-                <br>
-                -Disfruta de un buen dormir.
-                <br>
-                <br>
-                <br>
-                <br>         
-                <br>         
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-
-
-  
-
-
-
-
+      </div> {% endcomment %}
 
 {% endblock body %}
