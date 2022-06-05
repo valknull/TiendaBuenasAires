@@ -2,9 +2,11 @@ from django.shortcuts import render,redirect
 
 
 from django.db import connection
+from django.db.models import Min, Count
 from django.views.generic import CreateView, DeleteView, ListView , UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+
 
 from .models import *
 from .forms import EditProfile, SolicitudServicioForm, UpdateSolicitudServicioT, registroform
@@ -100,6 +102,26 @@ def facturas(request):
 def sds(request):
     usuario = request.user
     form = SolicitudServicioForm()
+    tecnicos = myUser.objects.filter(is_tecnico=True)
+    dictionarie = {}
+    """ q=tecnicos.select_related('WebSolicitudServicio').annotate(num_solicitudes = Count('rut_tecnico'))
+    e = WebSolicitudServicio.select_related('rut_tecnico').annotate(num_solicitudes = Count('rut_tecnico')) """
+    #hola = myUser.objects.annotate(solicitudes = Count(''))
+    entry_list = list(tecnicos)
+    print(entry_list)
+    a = myUser.objects.filter(rut_tecnico__numeross = 1)
+    #b = myUser.objects.select_related('rut_tecnico__numeross').filter(is_tecnico = True).annotate(n_ss = models.Count('rut_tecnico__numeross'))
+    b = tecnicos.prefetch_related('rut_tecnico').annotate(n_ss = models.Count('rut_tecnico__numeross'))
+    print (a)
+    print(b[0].n_ss)
+    print(b.aggregate(Min('n_ss')))
+    for i in b:
+        print(i.n_ss)
+        print(i.id)
+        dictionarie[i.id] = i.n_ss
+    print(dictionarie)
+    for i in tecnicos:
+        print(i.rut_tecnico.all())
     context = {
         'form': form
     }
@@ -122,10 +144,6 @@ def solicitudesS(request):
         'solicitudescli': solicitudescli
     }
     return render(request, 'SolicitudesS.html', context)
-""" def sds(request):
-    solicitudservicio = WebSolicitudServicio
-    form = SolicitudServicioForm
-    return render(request,'sds.html') """
 
 def updatess(request,id):
     solicitud = WebSolicitudServicio.objects.get(numeross = id)
