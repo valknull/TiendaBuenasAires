@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% comment %} {% block css %}
+    <link href="{% static 'core/css/iniciar_sesion.css'%}" rel="stylesheet">
+{% endblock css %} {% endcomment %}
+
+{% block content %}
+    <h1>¡El Pago fue Realizado con Exito!</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6 borde_formulario text-center">
+                {% csrf_token %}
+
+                Número de Orden de Compra: {{ buy_order }}<br><br>
+                Nombre cliente: {{ first_name }} {{ last_name }}<br><br>
+                RUT: {{ rut }}<br><br>
+                Dirección: {{ direccion }}<br><br>
+                Correo electrónico: {{ email }}<br><br>
+                Monto a Pagar: {{ amount }}<br><br>
+
+                <a href="{% url 'tienda' %}" class="btn btn-info btn-sm">Ir a la tienda</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

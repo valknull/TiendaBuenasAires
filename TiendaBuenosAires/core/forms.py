@@ -13,7 +13,7 @@ import datetime
 class UpdateSolicitudServicioT(forms.ModelForm):
     class Meta:
         model = WebSolicitudServicio
-        fields = ['fecha_visita_solicitada','hora_visita_solicitada']
+        fields = ['fecha_visita_solicitada','hora_visita_solicitada'] 
         widgets = {
             
             'hora_visita_solicitada': forms.TimeInput(attrs= dict(type = 'time'))

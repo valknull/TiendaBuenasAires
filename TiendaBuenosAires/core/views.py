@@ -6,7 +6,11 @@ from django.db.models import Min, Count
 from django.views.generic import CreateView, DeleteView, ListView , UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 
+from transbank.error.transbank_error import TransbankError
+from transbank.webpay.webpay_plus.transaction import Transaction
+import random
 
 from .models import *
 from .forms import EditProfile, SolicitudServicioForm, UpdateSolicitudServicioT, registroform
@@ -108,20 +112,27 @@ def sds(request):
     e = WebSolicitudServicio.select_related('rut_tecnico').annotate(num_solicitudes = Count('rut_tecnico')) """
     #hola = myUser.objects.annotate(solicitudes = Count(''))
     entry_list = list(tecnicos)
-    print(entry_list)
+    #print(entry_list)
     a = myUser.objects.filter(rut_tecnico__numeross = 1)
     #b = myUser.objects.select_related('rut_tecnico__numeross').filter(is_tecnico = True).annotate(n_ss = models.Count('rut_tecnico__numeross'))
     b = tecnicos.prefetch_related('rut_tecnico').annotate(n_ss = models.Count('rut_tecnico__numeross'))
-    print (a)
-    print(b[0].n_ss)
-    print(b.aggregate(Min('n_ss')))
+    #print (a)
+    #print(b[0].n_ss)
+    #print(b.aggregate(Min('n_ss')))
     for i in b:
-        print(i.n_ss)
-        print(i.id)
+        #print(i.n_ss)
+        #print(i.id)
         dictionarie[i.id] = i.n_ss
     print(dictionarie)
+    minval = min(dictionarie.values())
+    res = list(filter(lambda x: dictionarie[x]==minval, dictionarie))
+    random_list_number = random.randrange(0,len(res))
+    tecnico = res[random_list_number]
+    print(tecnico)
+    """
     for i in tecnicos:
         print(i.rut_tecnico.all())
+    """
     context = {
         'form': form
     }
@@ -130,6 +141,7 @@ def sds(request):
         if form.is_valid():
             solicituds = form.save(commit=False)
             solicituds.id_cli = myUser.objects.get(id= usuario.id)
+            solicituds.id_tec = myUser.objects.get(id = tecnico)
             solicituds.save() 
             #form.save()
             return redirect('home')
@@ -160,4 +172,80 @@ def updatess(request,id):
     }
     return render(request, 'updateSolicitud.html', context)
 
+#https://www.transbankdevelopers.cl/documentacion/como_empezar#como-empezar
+#https://www.transbankdevelopers.cl/documentacion/como_empezar#codigos-de-comercio
+#https://www.transbankdevelopers.cl/referencia/webpay
+
+# Tipo de tarjeta   Detalle                        Resultado
+#----------------   -----------------------------  ------------------------------
+# VISA              4051885600446623
+#                   CVV 123
+#                   cualquier fecha de expiración  Genera transacciones aprobadas.
+# AMEX              3700 0000 0002 032
+#                   CVV 1234
+#                   cualquier fecha de expiración  Genera transacciones aprobadas.
+# MASTERCARD        5186 0595 5959 0568
+#                   CVV 123
+#                   cualquier fecha de expiración  Genera transacciones rechazadas.
+# Redcompra         4051 8842 3993 7763            Genera transacciones aprobadas (para operaciones que permiten débito Redcompra y prepago)
+# Redcompra         4511 3466 6003 7060            Genera transacciones aprobadas (para operaciones que permiten débito Redcompra y prepago)
+# Redcompra         5186 0085 4123 3829            Genera transacciones rechazadas (para operaciones que permiten débito Redcompra y prepago)
+
+@csrf_exempt
+def iniciar_pago(request):
+    print("Webpay Plus Transaction.create")
+    buy_order = str(random.randrange(1000000, 99999999))
+    session_id = request.user.username
+    amount = random.randrange(10000, 1000000)
+    return_url = 'pago_exitoso'
     
+    response = Transaction.create(buy_order, session_id, amount, return_url)
+    print(response.token)
+
+    perfil = myUser.objects.get(user=request.user)
+    form = registroform()
+
+    context = {
+        "buy_order": buy_order,
+        "session_id": session_id,
+        "amount": amount,
+        "return_url": return_url,
+        "response": response,
+        "token_ws": response.token,
+        "url_tbk": response.url,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+        "email": request.user.email,
+        "rut": request.user.rut,
+        "direccion": request.user.diresu,
+    }
+
+    return render(request, "iniciarPago.html", context)
+
+@csrf_exempt
+def pago_exitoso(request):
+
+    if request.method == " ":
+        token = request.POST.get("token_ws")
+        print("commit for token_ws: {}".format(token))
+        response = Transaction.commit(token=token)
+        print("response: {}".format(response))
+
+        user = myUser.objects.get(username=response.session_id)
+        perfil = myUser.objects.get(user=user)
+        form = registroform()
+
+        context = {
+            "buy_order": response.buy_order,
+            "session_id": response.session_id,
+            "amount": response.amount,
+            "response": response,
+            "token_ws": token,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "rut": perfil.rut,
+        }
+
+        return render(request, "pago_exitoso.html", context)
+    return redirect(home)
