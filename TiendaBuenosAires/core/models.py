@@ -17,16 +17,6 @@ class myUser(AbstractUser):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
-""" 
-class Cliente(models.Model):
-    user = models.OneToOneField(myUser, on_delete=models.CASCADE,primary_key=True)
-    def __str__(self):
-        return self.user.username
-class Tecnico (models.Model):
-    user = models.OneToOneField(myUser,on_delete=models.CASCADE,primary_key=True)
-    def __str__(self):
-        return self.user.username 
-"""
 
 class Producto(models.Model):
     id= models.AutoField("id de producto", primary_key=True)
@@ -39,13 +29,7 @@ class Producto(models.Model):
         return self.nombre
 
 class WebFactura(models.Model):
-    """     
-    class TipoFactura(models.TextChoices):
-        Boleta = 'B',"Boleta"
-        Factura = 'F',"Factura" 
-    """
     nrofac = models.AutoField("Nro factura", primary_key=True)
-    #tipo_factura = models.CharField("Boleta o factura",max_length=1, choices=TipoFactura.choices,default=TipoFactura.Boleta)
     id_producto = models.OneToOneField(Producto, on_delete=models.DO_NOTHING,db_column='id_producto')
     rut_cliente = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,db_column='rutcli')
     fechafac = models.DateField("Fecha factura",auto_now_add=True, blank=True)
@@ -54,15 +38,6 @@ class WebFactura(models.Model):
     
     def __str__(self) -> str:
         return str(self.nrofac)
-
-"""#Fecha de visita aceptada
-FECHA_A = "FechaVisitaAceptada"
-#Nueva fecha prouesta
-N_FECHA_P = "NuevaFechaPropuesta"
-#Fecha de visita acordada con el cliente.
-F_VISITA_A = "FechaVisitaAcordada"
-SR = "ServicioRealizado"
-"""
 
 
 class WebSolicitudServicio(models.Model):
