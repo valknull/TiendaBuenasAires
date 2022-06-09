@@ -108,20 +108,9 @@ def sds(request):
     form = SolicitudServicioForm()
     tecnicos = myUser.objects.filter(is_tecnico=True)
     dictionarie = {}
-    """ q=tecnicos.select_related('WebSolicitudServicio').annotate(num_solicitudes = Count('rut_tecnico'))
-    e = WebSolicitudServicio.select_related('rut_tecnico').annotate(num_solicitudes = Count('rut_tecnico')) """
-    #hola = myUser.objects.annotate(solicitudes = Count(''))
-    entry_list = list(tecnicos)
-    #print(entry_list)
-    a = myUser.objects.filter(rut_tecnico__numeross = 1)
-    #b = myUser.objects.select_related('rut_tecnico__numeross').filter(is_tecnico = True).annotate(n_ss = models.Count('rut_tecnico__numeross'))
-    b = tecnicos.prefetch_related('rut_tecnico').annotate(n_ss = models.Count('rut_tecnico__numeross'))
-    #print (a)
-    #print(b[0].n_ss)
-    #print(b.aggregate(Min('n_ss')))
-    for i in b:
-        #print(i.n_ss)
-        #print(i.id)
+    tecnicos_numero_ss = tecnicos.prefetch_related('rut_tecnico').annotate(n_ss = models.Count('rut_tecnico__numeross'))
+
+    for i in tecnicos_numero_ss:
         dictionarie[i.id] = i.n_ss
     print(dictionarie)
     minval = min(dictionarie.values())
