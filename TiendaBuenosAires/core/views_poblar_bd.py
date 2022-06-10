@@ -12,17 +12,17 @@ def poblar_bd(request):
     except Exception as err:
         print(f"Error al truncar  la tabla:  {err}")
     try:
-        """ 
-        myUser.objects.create(username = "", first_name ="Ana", last_name = "Torres", email = "atorres@duoc.cl", is_customer = True , rut = "1111-1", dirusu = "La Florida", password = make_password("123") )
-        myUser.objects.create(username = "", first_name ="Juan", last_name = "Pérez", email = "jperez@duoc.cl", is_customer = True , rut = "2222-2", dirusu = "Santiago", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="Mario", last_name = "Ayala", email = "mayala@duoc.cl", is_customer = True , rut = "3333-3", dirusu = "Providencia", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="John", last_name = "Soto", email = "jsoto@duoc.cl", is_customer = True , rut = "4444-4", dirusu = "Las Condes", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="Pedro", last_name = "Mora", email = "pmora@duoc.cl", is_customer = True , rut = "5555-5", dirusu = "Maipú", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="Juan", last_name = "Gatica", email = "jgatica@duoc.cl", is_tecnico = True , rut = "6666-6", dirusu = "Cerro Navia", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="María", last_name = "Vera", email = "mvera@duoc.cl", is_tecnico = True , rut = "7777-7", dirusu = "Peñalolén", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="Pablo", last_name = "Díaz", email = "pdiazduoc.cl", is_tecnico = True , rut = "0000-0", dirusu = "La Reina", password = make_password("123"))
-        myUser.objects.create(username = "", first_name ="Carlos", last_name = "Reyes", email = "creyes@duoc.cl", is_bodeguero = True , rut = "8888-8", dirusu = "La Florida", password = make_password("123")) """
-        #myUser.objects.create(username = "admin", first_name ="Elon", last_name = "Musk", email = "emusk@duoc.cl", is_staff = True , is_superuser = True, rut = "9999-9", dirusu = "La Reina", password = make_password("123"))
+    
+        myUser.objects.create(username = "user1", first_name ="Ana", last_name = "Torres", email = "atorres@duoc.cl", is_customer = True , rut = "1111-1", dirusu = "La Florida", password = make_password("123")),
+        myUser.objects.create(username = "user2", first_name ="Juan", last_name = "Pérez", email = "jperez@duoc.cl", is_customer = True , rut = "2222-2", dirusu = "Santiago", password = make_password("123")),
+        myUser.objects.create(username = "user3", first_name ="Mario", last_name = "Ayala", email = "mayala@duoc.cl", is_customer = True , rut = "3333-3", dirusu = "Providencia", password = make_password("123")),
+        myUser.objects.create(username = "user4", first_name ="John", last_name = "Soto", email = "jsoto@duoc.cl", is_customer = True , rut = "4444-4", dirusu = "Las Condes", password = make_password("123")),
+        myUser.objects.create(username = "user5", first_name ="Pedro", last_name = "Mora", email = "pmora@duoc.cl", is_customer = True , rut = "5555-5", dirusu = "Maipú", password = make_password("123")),
+        myUser.objects.create(username = "tec1", first_name ="Juan", last_name = "Gatica", email = "jgatica@duoc.cl", is_tecnico = True , rut = "6666-6", dirusu = "Cerro Navia", password = make_password("123")),
+        myUser.objects.create(username = "tec2", first_name ="María", last_name = "Vera", email = "mvera@duoc.cl", is_tecnico = True , rut = "7777-7", dirusu = "Peñalolén", password = make_password("123")),
+        myUser.objects.create(username = "tec3", first_name ="Pablo", last_name = "Díaz", email = "pdiazduoc.cl", is_tecnico = True , rut = "0000-0", dirusu = "La Reina", password = make_password("123")),
+        myUser.objects.create(username = "bod1", first_name ="Carlos", last_name = "Reyes", email = "creyes@duoc.cl", is_bodeguero = True , rut = "8888-8", dirusu = "La Florida", password = make_password("123")),
+        myUser.objects.create(username = "admin", first_name ="Elon", last_name = "Musk", email = "emusk@duoc.cl", is_staff = True , is_superuser = True, rut = "9999-9", dirusu = "La Reina", password = make_password("123")),
         print("Tabla de usuarios poblada")
     except Exception as err:
         print(f"Error al crear usuarios : {err}")
