@@ -1,6 +1,4 @@
 from django.shortcuts import render,redirect
-
-
 from django.db import connection
 from django.db.models import Min, Count
 from django.views.generic import CreateView, DeleteView, ListView , UpdateView
@@ -19,11 +17,6 @@ from .forms import EditProfile, SolicitudServicioForm, UpdateSolicitudServicioT,
 def logout_view(request):
     logout(request)
     return redirect('login')
-
-""" class ModelCreateView(CreateView):
-    model = Model
-    template_name = ".html" """
-
 
 def listar_productos():
     django_cursor = connection.cursor()
@@ -118,10 +111,7 @@ def sds(request):
     random_list_number = random.randrange(0,len(res))
     tecnico = res[random_list_number]
     print(tecnico)
-    """
-    for i in tecnicos:
-        print(i.rut_tecnico.all())
-    """
+
     context = {
         'form': form
     }

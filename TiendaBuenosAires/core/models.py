@@ -27,7 +27,7 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
-
+        
 class WebFactura(models.Model):
     nrofac = models.AutoField("Nro factura", primary_key=True)
     id_producto = models.OneToOneField(Producto, on_delete=models.DO_NOTHING,db_column='id_producto')
