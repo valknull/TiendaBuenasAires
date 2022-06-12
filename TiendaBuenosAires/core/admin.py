@@ -7,4 +7,5 @@ admin.site.register(myUser)
 admin.site.register(WebSolicitudServicio)
 admin.site.register(WebFactura)
 admin.site.register(GuiasDespacho)
+admin.site.register(BodegaStockProducto)
 

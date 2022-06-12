@@ -1,3 +1,5 @@
+from urllib import response
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.db import connection
 from django.db.models import Min, Count
@@ -128,7 +130,7 @@ def sds(request):
 
 def solicitudesS(request):
     user = myUser.objects.get(id = request.user.id)
-    solicitudes = WebSolicitudServicio.objects.all().order_by('fecha_visita_solicitada')
+    solicitudes = WebSolicitudServicio.objects.all().order_by('id_cli__first_name')
     solicitudescli = WebSolicitudServicio.objects.filter(id_cli = user)
     context = {
         'solicitudes':solicitudes,
@@ -136,6 +138,16 @@ def solicitudesS(request):
     }
     return render(request, 'SolicitudesS.html', context)
 
+def updateEstadoSS(request,id):
+    solicitud = WebSolicitudServicio.objects.get(numeross = id)
+    if solicitud.estado_ss == WebSolicitudServicio.EstadoDeServicio.Pendiente or solicitud.estado_ss == WebSolicitudServicio.EstadoDeServicio.NuevaFechaPropuesta:
+        solicitud.estado_ss = WebSolicitudServicio.EstadoDeServicio.Aceptada
+    elif solicitud.estado_ss == WebSolicitudServicio.EstadoDeServicio.Aceptada:
+        solicitud.estado_ss = WebSolicitudServicio.EstadoDeServicio.SERVICIOREALIZADO
+    elif solicitud.estado_ss == WebSolicitudServicio.EstadoDeServicio.NuevaFechaPropuestaCliente:
+        solicitud.estado_ss = WebSolicitudServicio.EstadoDeServicio.Aceptada
+    solicitud.save()
+    return redirect('solicitudes')
 def updatess(request,id):
     solicitud = WebSolicitudServicio.objects.get(numeross = id)
     if request.method == 'GET':

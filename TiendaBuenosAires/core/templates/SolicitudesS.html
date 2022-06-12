@@ -14,10 +14,7 @@
         <th scope="col">Técnico</th>
         <th scope="col">Descripción</th>
         <th scope="col">Estado SS</th>
-        {% if request.user.is_customer %}
-        {% else %}
         <th scope="col">Opciones</th>
-        {% endif %}
        
     </tr>
     </thead>
@@ -30,22 +27,28 @@
                 <td>{{i.id_cli.get_full_name}}</td>
                 {% if i.tipo_servicio == 'R' %}
                 <td>Reparacion</td>
-                {% else %}
+                {% elif i.tipo_servicio == 'M'%}
                 <td>Mantencion</td>
+                {% else %}
+                <td>Instalaci&oacute;n</td>
                 {% endif %}
                 <td>{{i.fecha_visita_solicitada}}</td>
                 <td>{{i.hora_visita_solicitada}}</td>
                 <td>{{i.id_tec.get_full_name}}</td>
                 <td>{{i.descripcion_requerimiento}}</td>
-                {% if i.estado_ss == 'FA' %}
+                {% if i.estado_ss == 'A' %}
                 <td>Fecha Aceptada</td>
-                {% elif i.estado_ss == 'NFP' %}
+                {% elif i.estado_ss == 'M' %}
                 <td>Nueva fecha propuesta</td>
+                <td><button class="btn btn-primary" id="{{i.numeross}}" href="{% url 'update_estadoss' i.numeross %}">Aceptar</button> <button class="btn btn-secondary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button></tdC
                 {% elif i.estado_ss == 'FVA'%}
                 <td>Fecha acordada</td>
+                {% elif i.estado_ss == 'P'%}
+                <td>Pendiente...</td>
                 {% else %}
                 <td>Servicio realizado</td>
                 {% endif %}
+            </th>
                 {% comment %} <td><a href="#">Aceptar</a> <button class="btn btn-primary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button> <a href="#">Cerrar</a></td> {% endcomment %}
         </tr>
         {% endfor %}
@@ -57,23 +60,33 @@
                 <td>{{i.id_cli.get_full_name}}</td>
                 {% if i.tipo_servicio == 'R' %}
                 <td>Reparacion</td>
-                {% else %}
+                {% elif i.tipo_servicio == 'M'%}
                 <td>Mantencion</td>
+                {% else %}
+                <td>Instalaci&oacute;n</td>
                 {% endif %}
                 <td>{{i.fecha_visita_solicitada}}</td>
                 <td>{{i.hora_visita_solicitada}}</td>
                 <td>{{i.id_tec.get_full_name}}</td>
                 <td>{{i.descripcion_requerimiento}}</td>
-                {% if i.estado_ss == 'FA' %}
+                {% if i.estado_ss == 'A' %}
                 <td>Fecha Aceptada</td>
-                {% elif i.estado_ss == 'NFP' %}
+                <td><a class="btn btn-primary" href="{% url 'update_estadoss' i.numeross %}">Cerrar</a></td>
+                {% elif i.estado_ss == 'M'%}
+                <td>Pendiente a respuesta de cliente</td>
+                {% elif i.estado_ss == 'MC' %}
                 <td>Nueva fecha propuesta</td>
+                <td><a class="btn btn-primary" id="{{i.numeross}}" href="{% url 'update_estadoss' i.numeross %}">Aceptar</a> <button class="btn btn-secondary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button></td>
                 {% elif i.estado_ss == 'FVA'%}
                 <td>Fecha acordada</td>
+                <td><a class="btn btn-primary" href="{% url 'update_estadoss' i.numeross %}">Cerrar</a></td>
+                {% elif i.estado_ss == 'P'%}
+                <td>Pendiente...</td>
+                <td><a class="btn btn-primary" id="{{i.numeross}}" href="{% url 'update_estadoss' i.numeross %}">Aceptar</a> <button class="btn btn-secondary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button></td>
                 {% else %}
                 <td>Servicio realizado</td>
                 {% endif %}
-                <td><a href="#">Aceptar</a> <button class="btn btn-primary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button> <a href="#">Cerrar</a></td>
+            </th>
         </tr>
     {% endfor %}
     {% endif %}
@@ -115,12 +128,12 @@
 </div>
 {% block javascript %} 
     <script type="text/javascript">
-        
         function abrir_modal_edicion(url){
             $('#edicion').load(url, function(){
                 $(this).modal('show');
             })
         }
     </script>
+
 {% endblock javascript %}
 {% endblock body %}
