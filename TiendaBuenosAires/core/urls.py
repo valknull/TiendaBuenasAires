@@ -12,6 +12,7 @@ urlpatterns = [
     path('sds',sds, name='sds'),
     path('facturas',facturas, name='facturas'),
     path('solicitudes',solicitudesS, name = 'solicitudes'),
+    path('aceptar/<id>',updateEstadoSS, name='update_estadoss'),
     #path('sds',CrearSolicitudServicio.as_view(), name='sds'),
     path('facturas',facturas, name='facturas'),
     path('updateS/<id>', updatess, name='UpdateSolicitud'),

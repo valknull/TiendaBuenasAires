@@ -18,24 +18,27 @@
 </style>
 {% endblock css %}
 {% block body %}
-
-<div class="container">
+<div class ="album py-5">
+  <div class="container">
     <h1>Aires Acondicionados</h1>
     <div class="row">
       {% for i in item %}
       <div class="col-md-4">
         <a class="text-decoration-none text-muted" href="{% url 'item' i.id %}">
-        <div class ="card-mb-4 card-border shadow-sm text-center">
-            <img class="card-img-top" src="{{i.imagen_producto.url}}" alt="Card image cap" style="max-width: 500px; max-height: 175px;">
-            <div class="card-body">
-                <h5 class="card-title">{{i.nombre}}</h5>
-                <p class="card-text">{{i.descripcion}}</p>
-            </div>
-        </div>
+          <div class ="card-mb-4 card-border shadow-sm text-center">
+              <img class="card-img-top" src="{{i.imagen_producto.url}}" alt="Card image cap" style="max-width: 500px; max-height: 175px;">
+              <div class="card-body">
+                  <h5 class="card-title">{{i.nombre}}</h5>
+                  <p class="card-text">{{i.descripcion}}</p>
+              </div>
+          </div>
         </a>
       </div>
-    </div>
       {% endfor %}
+    </div>
+  </div>
+</div>
+      
 {% comment %}       <div class="col">
         Split Mural Samsung Inverter Frío-Calor 12.000 BTU 
         <div class="card" style="width: 18rem;">
