@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apirest',
 ]
 
+TOKEN_EXPIRA_SEGUNDOS = 10
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
