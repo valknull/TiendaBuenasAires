@@ -54,7 +54,7 @@ def producto_read(request, id):
 @api_view(['GET'])
 def producto_read_all(request):
     if request.method == 'GET':
-        list = Producto.objects.all()
+        list = Producto.objects.all().order_by('id')
         serializer = ProductoSerializer(list, many=True)
         return Response(serializer.data)
 
@@ -116,6 +116,7 @@ class Login(ObtainAuthToken):
                 return Response({'error':'Usuario invalido'}, status= status.HTTP_401_UNAUTHORIZED)
             print("success")
         else:
+            print("hola")
             return Response({'error': 'Nombre de usuario o contraseña incorrectas'}, status= status.HTTP_400_BAD_REQUEST)
         return Response({'mensaje': 'Response'}, status= status.HTTP_200_OK)
 class Logout(APIView):
@@ -141,8 +142,10 @@ class Logout(APIView):
                         'token_message': token_message},
                         status= status.HTTP_200_OK
                 )
+            print("token f")
             return Response({'error': 'No se ha encontrado un usuario con estas credenciales'},
                                             status= status.HTTP_400_BAD_REQUEST)
         except:
+            print("no token")
             return Response({'error': 'No se ha encontrado Token'},
                         status= status.HTTP_409_CONFLICT)
