@@ -21,8 +21,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 
 
-from .serializers import ProductoSerializer , UserTokenSerializer
-from core.models import Producto, myUser
+
+from .serializers import GuiaDespachoSerializer, ProductoSerializer , UserTokenSerializer
+from core.models import Producto, myUser,GuiasDespacho
 
 # Create your views here.
 
@@ -68,21 +69,14 @@ def producto_delete(request, id):
         except Producto.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['POST'])
-def login(request):
-    data = JSONParser().parse(request)
-    username = data['username']
-    password = data['password']
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response("Usuario inválido")
-    password_valida = check_password(password, user.password)
-    if not password_valida:
-        return Response("Contraseña incorrecta")
-    token, created = Token.objects.get_or_create(user=user)
-    print(f"Este es el token creado: '{token.key}'")
-    return Response(token.key)
+@csrf_exempt
+@api_view(['GET'])
+def guias_despacho_all(request):
+    if request.method == 'GET':
+        list = GuiasDespacho.objects.all().order_by('numeroGD')
+        serializer = GuiaDespachoSerializer(list,many=True)
+        return Response(serializer.data)
+
 
 class Login(ObtainAuthToken):
     def post(self,request,*arg,**kwargs):
@@ -114,11 +108,9 @@ class Login(ObtainAuthToken):
                         , status=status.HTTP_201_CREATED)
             else: 
                 return Response({'error':'Usuario invalido'}, status= status.HTTP_401_UNAUTHORIZED)
-            print("success")
         else:
             print("hola")
             return Response({'error': 'Nombre de usuario o contraseña incorrectas'}, status= status.HTTP_400_BAD_REQUEST)
-        return Response({'mensaje': 'Response'}, status= status.HTTP_200_OK)
 class Logout(APIView):
     def post(self,request, *args, **kwargs):
         try:
@@ -149,3 +141,20 @@ class Logout(APIView):
             print("no token")
             return Response({'error': 'No se ha encontrado Token'},
                         status= status.HTTP_409_CONFLICT)
+
+
+""" @api_view(['POST'])
+def login(request):
+    data = JSONParser().parse(request)
+    username = data['username']
+    password = data['password']
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response("Usuario inválido")
+    password_valida = check_password(password, user.password)
+    if not password_valida:
+        return Response("Contraseña incorrecta")
+    token, created = Token.objects.get_or_create(user=user)
+    print(f"Este es el token creado: '{token.key}'")
+    return Response(token.key) """

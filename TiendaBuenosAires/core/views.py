@@ -8,8 +8,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 
-from transbank.error.transbank_error import TransbankError
-from transbank.webpay.webpay_plus.transaction import Transaction
+""" from transbank.error.transbank_error import TransbankError
+from transbank.webpay.webpay_plus.transaction import Transaction """
+from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions
 import random
 
 from .models import *
@@ -188,13 +189,17 @@ def iniciar_pago(request):
     buy_order = str(random.randrange(1000000, 99999999))
     session_id = request.user.username
     amount = random.randrange(10000, 1000000)
-    return_url = 'pago_exitoso'
-    
-    response = Transaction.create(buy_order, session_id, amount, return_url)
-    print(response.token)
+    return_url = 'http://127.0.0.1:8000/pago_exitoso/'
 
-    perfil = myUser.objects.get(user=request.user)
-    form = registroform()
+    commercecode = "597055555532"
+    apikey = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
+
+    tx = Transaction(options=WebpayOptions(commerce_code=commercecode, api_key=apikey, integration_type="TEST"))
+    response = tx.create(buy_order, session_id, amount, return_url)
+    print(response['token'])
+
+    #perfil = myUser.objects.get(user=request.user)
+    #form = registroform()
 
     context = {
         "buy_order": buy_order,
@@ -202,13 +207,13 @@ def iniciar_pago(request):
         "amount": amount,
         "return_url": return_url,
         "response": response,
-        "token_ws": response.token,
-        "url_tbk": response.url,
+        "token_ws":  response['token'],
+        "url_tbk": response['url'],
         "first_name": request.user.first_name,
         "last_name": request.user.last_name,
         "email": request.user.email,
         "rut": request.user.rut,
-        "direccion": request.user.diresu,
+        "direccion": request.user.dirusu,
     }
 
     return render(request, "iniciarPago.html", context)
@@ -216,27 +221,32 @@ def iniciar_pago(request):
 @csrf_exempt
 def pago_exitoso(request):
 
-    if request.method == " ":
-        token = request.POST.get("token_ws")
+    if request.method == "GET":
+        token = request.GET.get("token_ws")
         print("commit for token_ws: {}".format(token))
-        response = Transaction.commit(token=token)
+        commercecode = "597055555532"
+        apikey = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
+        tx = Transaction(options=WebpayOptions(commerce_code=commercecode, api_key=apikey, integration_type="TEST"))
+        response = tx.commit(token=token)
         print("response: {}".format(response))
 
-        user = myUser.objects.get(username=response.session_id)
-        perfil = myUser.objects.get(user=user)
-        form = registroform()
+        user = myUser.objects.get(username=response['session_id'])
+        #perfil = myUser.objects.get(user=user)
+        #form = registroform()
 
         context = {
-            "buy_order": response.buy_order,
-            "session_id": response.session_id,
-            "amount": response.amount,
+            "buy_order": response['buy_order'],
+            "session_id": response['session_id'],
+            "amount": response['amount'],
             "response": response,
             "token_ws": token,
             "first_name": user.first_name,
             "last_name": user.last_name,
             "email": user.email,
-            "rut": perfil.rut,
+            "rut": user.rut,
+            "direccion": user.dirusu,
+            "response_code": response['response_code']
         }
-
-        return render(request, "pago_exitoso.html", context)
-    return redirect(home)
+        return render(request, 'pagoExitoso.html', context)
+    else:
+        return redirect(home)
