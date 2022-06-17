@@ -9,6 +9,7 @@ urlpatterns = [
     path('producto_read_all/', producto_read_all, name='producto_read_all'),
     path('producto_delete/<id>/', producto_delete, name="producto_delete"),
     #path('login', login, name='hi'),
+    path('guias_despacho/',guias_despacho_all, name="guiasDespacho"),
     path('apilogin',Login.as_view(), name='loginapi'),
     path('logout', Logout.as_view(), name='logoutapi')
 ]

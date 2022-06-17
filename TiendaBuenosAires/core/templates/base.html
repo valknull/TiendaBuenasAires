@@ -21,7 +21,7 @@
           
           
           <a href="#" class="navbar-brand dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="#" alt="" width="40px" height="40px" class="rounded-circle me-2">
+            <img src="{% static 'img/no-user-image-icon-0.jpg' %}" alt="" width="40px" height="40px" class="rounded-circle me-2">
             {% if user.first_name %}
             <strong>{{request.user.first_name}}</strong>
             {% else %}

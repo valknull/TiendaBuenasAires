@@ -25,4 +25,4 @@ class GuiaDespachoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GuiasDespacho
-        fields = ['numeroGD','nrofac','id_producto',]
+        fields = ['numeroGD','nrofac','id_producto','estadogd']

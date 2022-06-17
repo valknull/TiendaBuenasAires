@@ -5,11 +5,11 @@
     <link href="{% static 'core/css/iniciar_sesion.css'%}" rel="stylesheet">
 {% endblock css %} {% endcomment %}
 
-{% block content %}
-    <h1>¡El Pago fue Realizado con Exito!</h1>
+{% block body %}
+    <h1 style="text-align: center !important;">¡El Pago fue Realizado con Exito!</h1>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6 borde_formulario text-center">
+            <div class="col-6 text-center" style = "border: 2px solid gray; padding-top: 20px; padding-bottom:20px;">
                 {% csrf_token %}
 
                 Número de Orden de Compra: {{ buy_order }}<br><br>
@@ -19,8 +19,8 @@
                 Correo electrónico: {{ email }}<br><br>
                 Monto a Pagar: {{ amount }}<br><br>
 
-                <a href="{% url 'tienda' %}" class="btn btn-info btn-sm">Ir a la tienda</a>
+                <a href="{% url 'home' %}" class="btn btn-info btn-sm">Volver</a>
             </div>
         </div>
     </div>
-{% endblock content %}
+{% endblock body %}

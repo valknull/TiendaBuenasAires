@@ -6,10 +6,10 @@
 {% endblock %} {% endcomment %}
 
 {% block body %}
-    <h1>Iniciar Proceso de Pago</h1>
+    <h1 style="text-align: center !important;">Iniciar Proceso de Pago</h1>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6 borde_formulario">
+            <div class="col-6" style = "border: 2px solid gray; padding-top: 20px; padding-bottom:20px;">
                 <form method="POST" action="{{ url_tbk }}">
                     <div class="centrar">
                         {% csrf_token %}
