@@ -8,15 +8,17 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 
+from datetime import datetime,date
 """ from transbank.error.transbank_error import TransbankError
 from transbank.webpay.webpay_plus.transaction import Transaction """
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions
 import random
-
+import time
 from .models import *
 from .forms import EditProfile, SolicitudServicioForm, UpdateSolicitudServicioT, registroform
 
 # Create your views here.
+
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -184,16 +186,21 @@ def updatess(request,id):
 # Redcompra         5186 0085 4123 3829            Genera transacciones rechazadas (para operaciones que permiten débito Redcompra y prepago)
 
 @csrf_exempt
-def iniciar_pago(request):
+def iniciar_pago(request, id):
     print("Webpay Plus Transaction.create")
+    producto = Producto.objects.get(id = id)
     buy_order = str(random.randrange(1000000, 99999999))
     session_id = request.user.username
-    amount = random.randrange(10000, 1000000)
+
+    request.session['buyProductID'] = id
+
+    print(producto.precio)
+    amount = producto.precio
     return_url = 'http://127.0.0.1:8000/pago_exitoso/'
 
     commercecode = "597055555532"
     apikey = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
-
+    
     tx = Transaction(options=WebpayOptions(commerce_code=commercecode, api_key=apikey, integration_type="TEST"))
     response = tx.create(buy_order, session_id, amount, return_url)
     print(response['token'])
@@ -218,6 +225,26 @@ def iniciar_pago(request):
 
     return render(request, "iniciarPago.html", context)
 
+
+def str_time_prop(start, end, time_format, prop):
+    """Get a time at a proportion of a range of two formatted times.
+
+    start and end should be strings specifying times formatted in the
+    given format (strftime-style), giving an interval [start, end].
+    prop specifies how a proportion of the interval to be taken after
+    start.  The returned time will be in the specified format.
+    """
+
+    stime = time.mktime(time.strptime(start, time_format))
+    etime = time.mktime(time.strptime(end, time_format))
+
+    ptime = stime + prop * (etime - stime)
+
+    return time.strftime(time_format, time.localtime(ptime))
+
+def random_date(start, end, prop):
+    return str_time_prop(start, end, '%Y/%m/%d', prop)
+
 @csrf_exempt
 def pago_exitoso(request):
 
@@ -229,7 +256,36 @@ def pago_exitoso(request):
         tx = Transaction(options=WebpayOptions(commerce_code=commercecode, api_key=apikey, integration_type="TEST"))
         response = tx.commit(token=token)
         print("response: {}".format(response))
+        """
+        if response['response_code'] == 0 :
+            
+            print(request.session.get('buyProductID'))
+            print(request.user.id)
+            dnow = datetime.now()
+            datePlus1Day = dnow.replace(day= dnow.day + 1)
+            dateplus4months = dnow.replace(month= dnow.month + 4)
+            randate = random_date(datePlus1Day.strftime("%Y/%m/%d"),dateplus4months.strftime("%Y/%m/%d"),random.random())
+            randhour = dnow.replace(hour=random.randint(9, 20), minute= random.randint(0, 59),second= random.randint(0, 59)).strftime("%H:%M:%S")
+            print(randate , randhour)
+            tecnicos = myUser.objects.filter(is_tecnico=True)
+            dictionarie = {}
+            tecnicos_numero_ss = tecnicos.prefetch_related('rut_tecnico').annotate(n_ss = models.Count('rut_tecnico__numeross'))
 
+            for i in tecnicos_numero_ss:
+                dictionarie[i.id] = i.n_ss
+            print(dictionarie)
+            minval = min(dictionarie.values())
+            res = list(filter(lambda x: dictionarie[x]==minval, dictionarie))
+            random_list_number = random.randrange(0,len(res))
+            tecnico = res[random_list_number]
+            print(tecnico)
+            producto = Producto.objects.get(id = request.session.get('buyProductID'))
+            #WebFactura.objects.create(id_producto = producto.id, rut_cliente = myUser.objects.get(id = request.user.id), monto = producto.precio, descripcion = producto.nombre)
+            #WebSolicitudServicio.objects.create(tipo_servicio = 'I', fecha_visita_solicitada = randate , hora_visita_solicitada = randhour, descripcion_requerimiento = "Instalacion", estado_ss = "P", id_cli = myUser.objects.get(id = request.user.id), id_tec =  myUser.objects.get(id = tecnico))
+            GuiasDespacho.objects.create() 
+        if response['response_code'] == -1:
+            print('rechazado')
+        """
         user = myUser.objects.get(username=response['session_id'])
         #perfil = myUser.objects.get(user=user)
         #form = registroform()

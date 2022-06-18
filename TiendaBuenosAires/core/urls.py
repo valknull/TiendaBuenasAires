@@ -17,6 +17,6 @@ urlpatterns = [
     path('facturas',facturas, name='facturas'),
     path('updateS/<id>', updatess, name='UpdateSolicitud'),
     path('logout/',logout_view, name='logout'),
-    path('iniciar_pago/', iniciar_pago, name="iniciar_pago"),
+    path('iniciar_pago/<id>', iniciar_pago, name="iniciar_pago"),
     path('pago_exitoso/', pago_exitoso, name="pago_exitoso"),
 ]
