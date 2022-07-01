@@ -286,6 +286,8 @@ def pago_exitoso(request):
         if response['response_code'] == -1:
             print('rechazado')
         """
+        if response['reponse_code'] == -1:
+            return render(request,'pagoRechazado.html')
         user = myUser.objects.get(username=response['session_id'])
         #perfil = myUser.objects.get(user=user)
         #form = registroform()

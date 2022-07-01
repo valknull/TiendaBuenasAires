@@ -117,7 +117,7 @@ def poblar_bd(request):
         BodegaStockProducto.objects.create(idb = 90007, id_producto =Producto.objects.get(id = 4)),
     except Exception as err:
         print(f"Error al poblar Bodega: {err}") 
-    return redirect('home')
+    return redirect('login')
 
 
 
