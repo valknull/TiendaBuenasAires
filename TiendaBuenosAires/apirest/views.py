@@ -22,8 +22,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 
 
-from .serializers import GuiaDespachoSerializer, ProductoSerializer , UserTokenSerializer
-from core.models import Producto, myUser,GuiasDespacho
+from .serializers import GuiaDespachoSerializer, ProductoSerializer , UserTokenSerializer,BodegaStockProductosSerializer
+from core.models import Producto, myUser,GuiasDespacho,BodegaStockProducto
 
 # Create your views here.
 
@@ -77,6 +77,13 @@ def guias_despacho_all(request):
         serializer = GuiaDespachoSerializer(list,many=True)
         return Response(serializer.data)
 
+@csrf_exempt
+@api_view(['GET'])
+def bodega_stock_venta(request):
+    if request.method == 'GET':
+        list = BodegaStockProducto.objects.all().order_by('nrofac')
+        serializer = BodegaStockProductosSerializer(list, many=True)
+        return Response(serializer.data)
 
 class Login(ObtainAuthToken):
     def post(self,request,*arg,**kwargs):
@@ -141,20 +148,3 @@ class Logout(APIView):
             print("no token")
             return Response({'error': 'No se ha encontrado Token'},
                         status= status.HTTP_409_CONFLICT)
-
-
-""" @api_view(['POST'])
-def login(request):
-    data = JSONParser().parse(request)
-    username = data['username']
-    password = data['password']
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response("Usuario inválido")
-    password_valida = check_password(password, user.password)
-    if not password_valida:
-        return Response("Contraseña incorrecta")
-    token, created = Token.objects.get_or_create(user=user)
-    print(f"Este es el token creado: '{token.key}'")
-    return Response(token.key) """

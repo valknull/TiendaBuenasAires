@@ -10,6 +10,7 @@ urlpatterns = [
     path('producto_delete/<id>/', producto_delete, name="producto_delete"),
     #path('login', login, name='hi'),
     path('guias_despacho/',guias_despacho_all, name="guiasDespacho"),
+    path('stock_venta/',bodega_stock_venta, name = 'stockventa'),
     path('apilogin',Login.as_view(), name='loginapi'),
     path('logout', Logout.as_view(), name='logoutapi')
 ]
