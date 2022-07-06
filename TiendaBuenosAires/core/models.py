@@ -33,7 +33,7 @@ class Producto(models.Model):
         
 class WebFactura(models.Model):
     nrofac = models.AutoField("Nro factura", primary_key=True)
-    id_producto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING,db_column='id_producto')
+    id_producto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING,db_column='id_producto', null=True, blank=True) 
     rut_cliente = models.ForeignKey(myUser,on_delete=models.DO_NOTHING,db_column='rutcli')
     fechafac = models.DateField("Fecha factura",auto_now_add=True, blank=True)
     monto = models.IntegerField("Monto")
@@ -70,6 +70,16 @@ class WebSolicitudServicio(models.Model):
     nro_factura = models.ForeignKey(WebFactura, models.DO_NOTHING, db_column='nrofac', default= "",blank= True)
     def __str__(self) -> str:
         return str(self.numeross)
+    
+    def save(self,*args, **kwargs):
+        desc_fac = ""
+        if(self.tipo_servicio == 'R'):
+            desc_fac = "Reparación"
+        else:
+            desc_fac = "Mantención"
+        factura = WebFactura.objects.create(rut_cliente = self.id_cli, monto = 25000, descripcion = desc_fac)
+        self.nro_factura = factura
+        super(WebSolicitudServicio,self).save(*args, **kwargs)
 
 class GuiasDespacho(models.Model):
     class Estado(models.TextChoices):

@@ -5,8 +5,8 @@ from .views_poblar_bd import poblar_bd
 
 urlpatterns = [
     path('home',home,name='home'),
-    path('poblar_bd', poblar_bd, name="poblar_bd"),
-    path('',registerpage, name='login'),
+    path('', poblar_bd, name="poblar_bd"),
+    path('login',registerpage, name='login'),
     path('itemP/<id>',itemP, name='item'),
     path('perfil',perfil, name='perfil'),
     path('sds',sds, name='sds'),
