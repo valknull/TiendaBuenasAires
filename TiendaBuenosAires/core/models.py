@@ -91,6 +91,9 @@ class GuiasDespacho(models.Model):
     id_producto = models.ForeignKey(Producto,on_delete=DO_NOTHING, db_column='id_producto')
     estadogd = models.CharField(max_length=1, choices=Estado.choices, default = Estado.EnBodega)
 
+    def __str__(self):
+        return str(self.numeroGD)
+
 class BodegaStockProducto(models.Model):
     idb = models.IntegerField(primary_key=True)
     id_producto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='id_producto')

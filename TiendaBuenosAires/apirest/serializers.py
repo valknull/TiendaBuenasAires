@@ -43,3 +43,8 @@ class BodegaStockProductosSerializer(serializers.ModelSerializer):
     class Meta:
         model = BodegaStockProducto
         fields = ['idb','nrofac','id_producto']
+
+class BodegaEstadoGuiaDespachoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GuiasDespacho
+        fields = ['estadogd']

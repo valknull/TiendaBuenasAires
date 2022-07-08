@@ -8,6 +8,7 @@ urlpatterns = [
     path('producto_read/<id>/', producto_read, name="producto_read"),
     path('producto_read_all/', producto_read_all, name='producto_read_all'),
     path('producto_delete/<id>/', producto_delete, name="producto_delete"),
+    path('updt_estado_gd/<id>/', estado_GD.as_view(), name= 'UpdateEstadoGD'),
     #path('login', login, name='hi'),
     path('guias_despacho/',guias_despacho_all, name="guiasDespacho"),
     path('stock_venta/',bodega_stock_venta, name = 'stockventa'),
