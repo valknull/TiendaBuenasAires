@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
@@ -22,8 +22,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 
 
-from .serializers import GuiaDespachoSerializer, ProductoSerializer , UserTokenSerializer
-from core.models import Producto, myUser,GuiasDespacho
+from .serializers import GuiaDespachoSerializer, ProductoSerializer , UserTokenSerializer,BodegaStockProductosSerializer, BodegaEstadoGuiaDespachoSerializer
+from core.models import Producto, myUser,GuiasDespacho,BodegaStockProducto
 
 # Create your views here.
 
@@ -42,6 +42,34 @@ class producto_update(APIView):
             serializer.update()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""class estado_GD(APIView):
+    def put(self, request, id=None):
+        guia = GuiasDespacho.objects.get(numeroGD = id)
+        serializer = BodegaEstadoGuiaDespachoSerializer(guia, data = request.data)
+        if serializer.is_valid():
+            serializer.update()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors , status= status.HTTP_400_BAD_REQUEST)
+"""
+class estado_GD(generics.UpdateAPIView):
+    serializer_class = BodegaEstadoGuiaDespachoSerializer
+    """ def get_queryset(self, pk= None):
+        return self.get_serializer().Meta.model.objects.get(numeroGD = pk) """
+    def get_object(self,id):
+        return self.get_serializer().Meta.model.objects.get(numeroGD = id)
+    def put(self,request, id):
+        guia = self.get_object(id)
+        if guia:
+            guia_serializer = self.serializer_class(guia, data= request.data)
+            if guia_serializer.is_valid():
+                guia_serializer.save()
+                return Response(guia_serializer.data, status= status.HTTP_200_OK)
+            return Response(guia_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        return Response(guia_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+
+
 
 @csrf_exempt
 @api_view(['GET'])
@@ -77,6 +105,13 @@ def guias_despacho_all(request):
         serializer = GuiaDespachoSerializer(list,many=True)
         return Response(serializer.data)
 
+@csrf_exempt
+@api_view(['GET'])
+def bodega_stock_venta(request):
+    if request.method == 'GET':
+        list = BodegaStockProducto.objects.all().order_by('nrofac')
+        serializer = BodegaStockProductosSerializer(list, many=True)
+        return Response(serializer.data)
 
 class Login(ObtainAuthToken):
     def post(self,request,*arg,**kwargs):
@@ -141,20 +176,3 @@ class Logout(APIView):
             print("no token")
             return Response({'error': 'No se ha encontrado Token'},
                         status= status.HTTP_409_CONFLICT)
-
-
-""" @api_view(['POST'])
-def login(request):
-    data = JSONParser().parse(request)
-    username = data['username']
-    password = data['password']
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response("Usuario inválido")
-    password_valida = check_password(password, user.password)
-    if not password_valida:
-        return Response("Contraseña incorrecta")
-    token, created = Token.objects.get_or_create(user=user)
-    print(f"Este es el token creado: '{token.key}'")
-    return Response(token.key) """

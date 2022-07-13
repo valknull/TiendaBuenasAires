@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Producto , myUser, GuiasDespacho,WebFactura
+from core.models import Producto , myUser, GuiasDespacho,WebFactura, BodegaStockProducto
 
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,3 +26,25 @@ class GuiaDespachoSerializer(serializers.ModelSerializer):
     class Meta:
         model = GuiasDespacho
         fields = ['numeroGD','nrofac','id_producto','estadogd']
+class GuiaDespachoForAppSerializer(serializers.ModelSerializer):
+    nrofac = WebfacturaClienteSerializer(many = False, read_only = True)
+
+    class Meta:
+        model = GuiasDespacho
+        fields = ['nrofac','estadogd']
+class prodcutoNombreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = ['id', 'nombre']
+class BodegaStockProductosSerializer(serializers.ModelSerializer):
+    id_producto = prodcutoNombreSerializer(many = False, read_only = True)
+    #nrofac = WebfacturaClienteSerializer(many = False, read_only = True)
+    #nrofac = GuiaDespachoForAppSerializer(many = False, read_only = True)
+    class Meta:
+        model = BodegaStockProducto
+        fields = ['idb','nrofac','id_producto']
+
+class BodegaEstadoGuiaDespachoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GuiasDespacho
+        fields = ['estadogd']
