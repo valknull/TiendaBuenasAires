@@ -126,6 +126,8 @@ def sds(request):
             solicituds = form.save(commit=False)
             solicituds.id_cli = myUser.objects.get(id= usuario.id)
             solicituds.id_tec = myUser.objects.get(id = tecnico)
+            factura = WebFactura.objects.create(rut_cliente = usuario, monto = 25000, descripcion = solicituds.tipo_servicio)
+            solicituds.nro_factura = factura
             solicituds.save() 
             #form.save()
             return redirect('home')
@@ -264,7 +266,7 @@ def pago_exitoso(request):
         tx = Transaction(options=WebpayOptions(commerce_code=commercecode, api_key=apikey, integration_type="TEST"))
         response = tx.commit(token=token)
         print("response: {}".format(response))
-        """
+
         if response['response_code'] == 0 :
             
             print(request.session.get('buyProductID'))
@@ -288,12 +290,12 @@ def pago_exitoso(request):
             tecnico = res[random_list_number]
             print(tecnico)
             producto = Producto.objects.get(id = request.session.get('buyProductID'))
-            #WebFactura.objects.create(id_producto = producto.id, rut_cliente = myUser.objects.get(id = request.user.id), monto = producto.precio, descripcion = producto.nombre)
-            #WebSolicitudServicio.objects.create(tipo_servicio = 'I', fecha_visita_solicitada = randate , hora_visita_solicitada = randhour, descripcion_requerimiento = "Instalacion", estado_ss = "P", id_cli = myUser.objects.get(id = request.user.id), id_tec =  myUser.objects.get(id = tecnico))
-            GuiasDespacho.objects.create() 
+            factura = WebFactura.objects.create(id_producto = producto, rut_cliente = myUser.objects.get(id = request.user.id), monto = producto.precio, descripcion = producto.nombre)
+            WebSolicitudServicio.objects.create(tipo_servicio = 'I', fecha_visita_solicitada = randate.replace('/','-') , hora_visita_solicitada = randhour, descripcion_requerimiento = "Instalacion", estado_ss = "P", id_cli = myUser.objects.get(id = request.user.id), id_tec =  myUser.objects.get(id = tecnico),nro_factura = factura)
+            GuiasDespacho.objects.create(nrofac = factura , id_producto = producto , estadogd = 'B') 
         if response['response_code'] == -1:
             print('rechazado')
-        """
+
         user = myUser.objects.get(username=response['session_id'])
         #perfil = myUser.objects.get(user=user)
         #form = registroform()

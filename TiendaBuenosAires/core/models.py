@@ -70,7 +70,7 @@ class WebSolicitudServicio(models.Model):
     nro_factura = models.ForeignKey(WebFactura, models.DO_NOTHING, db_column='nrofac', default= "",blank= True)
     def __str__(self) -> str:
         return str(self.numeross)
-    
+    """
     def save(self,*args, **kwargs):
         desc_fac = ""
         if(self.tipo_servicio == 'R'):
@@ -80,6 +80,7 @@ class WebSolicitudServicio(models.Model):
         factura = WebFactura.objects.create(rut_cliente = self.id_cli, monto = 25000, descripcion = desc_fac)
         self.nro_factura = factura
         super(WebSolicitudServicio,self).save(*args, **kwargs)
+    """
 
 class GuiasDespacho(models.Model):
     class Estado(models.TextChoices):
