@@ -30,7 +30,9 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-darl text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
+            {% if request.user.is_customer%}
             <li><a class="dropdown-item" href="{% url 'facturas' %}">mis compras</a></li>
+            {% endif %}
             <li>
                 <hr class="dropdown-divider">
             </li>
