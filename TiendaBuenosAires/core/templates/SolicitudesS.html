@@ -40,7 +40,9 @@
                 <td>Fecha Aceptada</td>
                 {% elif i.estado_ss == 'M' %}
                 <td>Nueva fecha propuesta</td>
-                <td><button class="btn btn-primary" id="{{i.numeross}}" href="{% url 'update_estadoss' i.numeross %}">Aceptar</button> <button class="btn btn-secondary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button></tdC
+                <td><button class="btn btn-primary" id="{{i.numeross}}" href="{% url 'update_estadoss' i.numeross %}">Aceptar</button> <button class="btn btn-secondary" onclick="abrir_modal_edicion('{% url 'UpdateSolicitud' i.numeross %}')" >Modificar</button></td>
+                {% elif i.estado_ss == 'MC' %}
+                <td>Pendiente de aceptacion</td>
                 {% elif i.estado_ss == 'FVA'%}
                 <td>Fecha acordada</td>
                 {% elif i.estado_ss == 'P'%}
@@ -53,7 +55,7 @@
         </tr>
         {% endfor %}
     {% else %}
-    {% for i in solicitudes %}
+    {% for i in solicitudestec %}
         <tr>
             <th scope="row">{{forloop.counter}}</th>
             
@@ -92,11 +94,14 @@
     {% endif %}
     </tbody>
 </table>
+{% if request.user.is_customer %}
 <div class="text-center">
     <a href="{% url 'sds' %}" type="button" class="btn btn-primary">
         Ingresar nueva solicitud de servicio
     </a>
 </div>
+{% else %}
+{% endif %}
 {% comment %} <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Modificar</a> {% endcomment %}
 <!-- Modal -->
 {% comment %} <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -66,6 +66,7 @@ class estado_GD(generics.UpdateAPIView):
                 guia_serializer.save()
                 return Response(guia_serializer.data, status= status.HTTP_200_OK)
             return Response(guia_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        return Response(guia_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -133,11 +133,13 @@ def sds(request):
 
 def solicitudesS(request):
     user = myUser.objects.get(id = request.user.id)
-    solicitudes = WebSolicitudServicio.objects.all().order_by('id_cli__first_name')
+    #solicitudes = WebSolicitudServicio.objects.all().order_by('id_cli__first_name')
     solicitudescli = WebSolicitudServicio.objects.filter(id_cli = user)
+    solicitudestec = WebSolicitudServicio.objects.filter(id_tec = user).order_by('id_cli__first_name')
     context = {
-        'solicitudes':solicitudes,
-        'solicitudescli': solicitudescli
+        #'solicitudes':solicitudes,
+        'solicitudescli': solicitudescli,
+        'solicitudestec': solicitudestec
     }
     return render(request, 'SolicitudesS.html', context)
 
@@ -158,7 +160,13 @@ def updatess(request,id):
     else :
         form = UpdateSolicitudServicioT(request.POST, instance = solicitud)
         if form.is_valid():
-            form.save()
+            solicitud = form.save(commit= False)
+            if request.user.is_customer:
+                solicitud.estado_ss = 'MC'
+                solicitud.save()
+            if request.user.is_tecnico:
+                solicitud.estado_ss = 'M'
+                solicitud.save()
             return redirect('solicitudes')
     context = {
         'form': form,
